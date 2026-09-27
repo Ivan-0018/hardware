@@ -28,7 +28,7 @@ Text starting with "To add" is shown greyed out as a placeholder.
 - `css/tokens.css` — light and dark colours (dark follows the Tank-design website)
 - `css/main.css`, `css/edc.css`, `css/explorer.css` — page styles
 - `js/site.js` — theme toggle, side list, circle cursor, floating sand, iframe bridge
-- `js/edc.js` — engineering design cycle circle
+- `js/edc.js` — engineering design cycle diagram. Switch between infinity and circle with `shape` at the top of `content/design-cycle-content.js`
 - `js/tank.js` (tank morph player), `js/sections.js`, `js/explorer.js`
 - `embeds/` — the four interactive diagrams, each as its own html/css/js
 - `assets/img/` — component images. `diaphragm-pump.svg` is a drawn stand-in: swap in a photo when you have one

@@ -84,7 +84,7 @@
     const dot = document.createElement("div"); dot.id = "cursor-dot";
     document.body.append(ring, dot);
     let rx = innerWidth / 2, ry = innerHeight / 2, tx = rx, ty = ry;
-    const HOT = "button,a,input,select,label,[role=button],[role=tab],model-viewer,.pick,.penta-node,.iter-dot,.edc-node,.edc-card";
+    const HOT = "button,a,input,select,label,[role=button],[role=tab],model-viewer,.pick,.penta-node,.iter-dot,.edc-node,.edc-card,.edc-lap-hit,.xp-comp";
     cursorAPI.move = (x, y, hot) => {
       tx = x; ty = y;
       dot.style.transform = "translate(" + x + "px," + y + "px) translate(-50%,-50%)";

@@ -152,7 +152,8 @@
     fill.style.width = (its.length > 1 ? (k / (its.length - 1)) * 100 : 100) + "%";
     if (mode === "evo" && S.frames && framePlayer) framePlayer.goTo(k);
     if (mode === "evo" && S.flow) renderFlow(k);
-    edc.setCycle(k, its.length, it.short || it.title, it.cycle, first ? { instant: true } : null);
+    const titles = its.map((x) => x.short || x.title);
+    edc.setCycle(k, its.length, it.short || it.title, it.cycle, first ? { instant: true, titles } : { titles });
   }
 
   function select(k) {
@@ -161,7 +162,7 @@
     compBtns.forEach((b) => { const on = b.dataset.key === k; b.classList.toggle("on", on); b.setAttribute("aria-selected", on); });
     mode = S.frames || S.flow ? "evo" : "3d";
     iter = 0;
-    edc = EDC.mount($(".xp-cycle"), { stages: D.stages, title: D.title });
+    edc = EDC.mount($(".xp-cycle"), { shape: D.shape, stages: D.stages, title: D.title, onCycle: (k) => showIter(k) });
     renderDots();
     renderViewer();
     const specs = $(".xp-specs");

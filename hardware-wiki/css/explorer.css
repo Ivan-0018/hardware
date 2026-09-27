@@ -63,6 +63,7 @@
 .xp-cycle{margin-top:18px;border-top:1px solid var(--line);padding-top:20px}
 .xp-cycle .edc{grid-template-columns:1fr;gap:14px}
 .xp-cycle .edc-graphic{max-width:270px;margin:0 auto}
+.xp-cycle .edc-infinity .edc-graphic{max-width:430px}
 .xp-cycle .edc-card{min-height:0}
 
 @media(max-width:900px){

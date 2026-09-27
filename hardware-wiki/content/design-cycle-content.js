@@ -1,5 +1,6 @@
 /* ============================================================
    ENGINEERING DESIGN CYCLE — editable information
+   shape  : "infinity" or "circle" (the diagram in the explorer)
    stages : the steps of the cycle (any number works; the circle
             re-spaces itself). Rename freely, but keep each "key"
             matching the keys used in the "cycle" blocks below
@@ -9,6 +10,9 @@
 window.DESIGN_CYCLE = {
 
   title: "Engineering design cycle",
+
+  // SHAPE OF THE CYCLE DIAGRAM: "infinity" or "circle"
+  shape: "infinity",
 
   stages: [
     { key: "design", name: "Design" },

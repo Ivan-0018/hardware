@@ -1,6 +1,9 @@
 /* ============================================================
    ENGINEERING DESIGN CYCLE (EDC) widget
-   EDC.mount(el, { stages, title })   -- circle diagram + stage cards
+   EDC.mount(el, { shape, stages, title, onCycle })
+     shape   : "circle" or "infinity"  (set in content/design-cycle-content.js)
+     onCycle : called with an iteration index when one of the inner
+               loops (previous iterations) is clicked
      -> { setCycle(i, total, title, texts, opts), setStage(i) }
    Text lives in content/design-cycle-content.js
    ============================================================ */
@@ -16,15 +19,30 @@
     return e;
   };
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const MAX_LAPS = 8;
 
-  /* ---------- circle geometry ---------- */
+  /* ---------- the two shapes ----------
+     pos(f, k): point at fraction f (0..1) along the loop, scaled by k
+     offset   : where stage 1 sits (stage i is at f = (i + offset) / N)
+     lapScale : size of the inner loop for the i-th previous iteration
+                (i = 0 is the most recent one, drawn closest to the track) */
   const SHAPES = {
-    ring: {
+    circle: {
       viewBox: "-40 -26 380 352",
-      offset: 0, // stage i sits at f = i / N
+      offset: 0,
       pos(f, k) { const R = 112 * (k || 1); const a = TAU * f - Math.PI / 2; return [150 + R * Math.cos(a), 150 + R * Math.sin(a)]; },
-      lapScale(i) { return (86 - i * 8) / 112; },
+      lapScale(i) { return (90 - i * 8) / 112; },
       label(x, y) { const dx = x - 150, dy = y - 150, d = Math.hypot(dx, dy) || 1; return [150 + dx / d * 148, 150 + dy / d * 146 + 3]; }
+    },
+    infinity: {
+      viewBox: "0 -6 440 262",
+      offset: 0.5, // the crossing point is f = 0
+      pos(f, k) {
+        const a = 188 * (k || 1), t = Math.PI / 2 + TAU * f, s = Math.sin(t), c = Math.cos(t), den = 1 + s * s;
+        return [220 + a * c / den, 118 + a * s * c / den];
+      },
+      lapScale(i) { return 0.87 - i * 0.075; },
+      label(x, y) { return [x, y < 118 ? y - 30 : y + 34]; }
     }
   };
 
@@ -40,11 +58,12 @@
   function mount(host, opts) {
     const stages = opts.stages;
     const N = stages.length;
-    const shape = SHAPES.ring;
+    const kind = opts.shape === "infinity" ? "infinity" : "circle";
+    const shape = SHAPES[kind];
     const stageF = (i) => (i + shape.offset) / N;
 
     host.innerHTML =
-      '<div class="edc">' +
+      '<div class="edc edc-' + kind + '">' +
       '<div class="edc-graphic"></div>' +
       '<div class="edc-text"><div class="edc-head"><span class="kicker">' + esc(opts.title || "Engineering design cycle") +
       '</span><b class="edc-cycle-title"></b></div><div class="edc-cards"></div>' +
@@ -68,10 +87,17 @@
       el("path", { class: "edc-chevron", d: "M-4 -5 L3 0 L-4 5", transform: "translate(" + p[0] + " " + p[1] + ") rotate(" + ang + ")" }, svg);
     }
 
-    // centre text
-    const k = el("text", { class: "edc-center-kicker", x: 150, y: 124 }, svg); k.textContent = "Cycle";
-    const centerNum = el("text", { class: "edc-center-num", x: 150, y: 168 }, svg);
-    const centerOf = el("text", { class: "edc-center-of", x: 150, y: 190 }, svg);
+    // cycle counter: in the middle of the circle, under the infinity
+    let showCount;
+    if (kind === "circle") {
+      const k = el("text", { class: "edc-center-kicker", x: 150, y: 124 }, svg); k.textContent = "Cycle";
+      const num = el("text", { class: "edc-center-num", x: 150, y: 168 }, svg);
+      const of = el("text", { class: "edc-center-of", x: 150, y: 190 }, svg);
+      showCount = (i, tot) => { num.textContent = pad2(i + 1); of.textContent = "of " + pad2(tot); };
+    } else {
+      const t = el("text", { class: "edc-center-of", x: 220, y: 250 }, svg);
+      showCount = (i, tot) => { t.textContent = "Cycle " + pad2(i + 1) + " of " + pad2(tot); };
+    }
 
     // traveller
     const halo = el("circle", { class: "edc-traveller-halo", r: 11 }, svg);
@@ -102,18 +128,17 @@
     });
 
     /* ---------- state + animation ---------- */
-    let fCur = stageF(0), stage = 0, raf = 0, cycle = 0, total = 1;
+    let fCur = stageF(0), stage = 0, raf = 0, cycle = 0, titles = [];
     function place(f) {
       const fr = ((f % 1) + 1) % 1;
       const p = shape.pos(fr);
       dot.setAttribute("cx", p[0]); dot.setAttribute("cy", p[1]);
       halo.setAttribute("cx", p[0]); halo.setAttribute("cy", p[1]);
-      const done = fr * LEN;
-      prog.style.strokeDasharray = done + " " + LEN;
+      prog.style.strokeDasharray = fr * LEN + " " + LEN;
     }
     function animateTo(fTarget, dur, done) {
       cancelAnimationFrame(raf);
-      if (reduce || dur <= 0) { fCur = fTarget; place(fCur); if (done) done(); return; }
+      if (reduce || dur <= 0) { fCur = fTarget % 1; place(fCur); if (done) done(); return; }
       const from = fCur, dist = fTarget - from, t0 = performance.now();
       const ease = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
       (function step(ts) {
@@ -134,12 +159,24 @@
       animateTo(target, dur == null ? 260 + Math.abs(target - fCur) * 1400 : dur);
       if (opts.onStage) opts.onStage(stage);
     }
+
+    /* inner loops = previous iterations; click one to jump back to it */
     function drawLaps() {
       laps.innerHTML = "";
-      const n = Math.min(cycle, 8);
-      for (let i = 0; i < n; i++) {
-        el("path", { class: "edc-lap", d: pathD(shape, shape.lapScale(i)), style: "opacity:" + (0.22 - i * 0.02).toFixed(2) }, laps);
+      const n = Math.min(cycle, MAX_LAPS);
+      for (let i = n - 1; i >= 0; i--) {
+        const iter = cycle - 1 - i; // i = 0 is the most recent previous iteration
+        const d = pathD(shape, shape.lapScale(i));
+        const lap = el("g", { class: "edc-lap-group", tabindex: 0, role: "button",
+          "aria-label": "Go to iteration " + (iter + 1) + (titles[iter] ? ": " + titles[iter] : "") }, laps);
+        const tip = el("title", {}, lap); tip.textContent = "Iteration " + (iter + 1) + (titles[iter] ? " · " + titles[iter] : "");
+        el("path", { class: "edc-lap", d, style: "opacity:" + Math.max(0.12, 0.34 - i * 0.03).toFixed(2) }, lap);
+        el("path", { class: "edc-lap-hit", d }, lap);
+        const go = () => { if (opts.onCycle) opts.onCycle(iter); };
+        lap.addEventListener("click", go);
+        lap.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
       }
+      laps.classList.toggle("clickable", !!opts.onCycle);
     }
 
     /* autoplay: after a new cycle is chosen, walk through the stages once */
@@ -160,9 +197,10 @@
 
     function setCycle(i, tot, title, texts, o) {
       const forward = i > cycle;
-      cycle = i; total = tot;
+      cycle = i;
+      if (o && o.titles) titles = o.titles;
       titleEl.textContent = "Cycle " + pad2(i + 1) + (title ? " · " + title : "");
-      centerNum.textContent = pad2(i + 1); centerOf.textContent = "of " + pad2(tot);
+      showCount(i, tot);
       cards.forEach((c, k) => {
         const t = (texts && texts[stages[k].key]) || "To add.";
         const p = c.querySelector("p");

@@ -1,8 +1,10 @@
 /* ============================================================
    ENGINEERING DESIGN CYCLE widget
-   .edc -> wrapper (circle diagram + stage cards)
+   .edc -> wrapper (diagram + stage cards)
+   .edc-circle / .edc-infinity -> which shape is drawn
    ============================================================ */
 .edc{display:grid;grid-template-columns:minmax(260px,330px) 1fr;gap:34px;align-items:center}
+.edc-infinity{grid-template-columns:minmax(300px,440px) 1fr}
 .edc-graphic{position:relative;width:100%}
 .edc-graphic svg{display:block;width:100%;height:auto;overflow:visible}
 
@@ -12,7 +14,11 @@
 
 /* tracks */
 .edc-track{fill:none;stroke:var(--line);stroke-width:2}
-.edc-lap{fill:none;stroke:var(--burg);stroke-width:1.2;opacity:.14}
+.edc-lap{fill:none;stroke:var(--burg);stroke-width:1.2;opacity:.14;transition:opacity .2s,stroke-width .2s}
+.edc-lap-hit{fill:none;stroke:transparent;stroke-width:7}
+.clickable .edc-lap-hit{pointer-events:stroke;cursor:pointer}
+.clickable .edc-lap-group:hover .edc-lap,.clickable .edc-lap-group:focus-visible .edc-lap{opacity:.85!important;stroke-width:2.6}
+.edc-lap-group{outline:none}
 .edc-progress{fill:none;stroke:var(--burg);stroke-width:3;stroke-linecap:round}
 .edc-chevron{fill:none;stroke:var(--dash);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 
@@ -55,7 +61,7 @@
 .edc-foot{margin-top:10px;color:var(--faint);font-size:11px}
 
 @media(max-width:900px){
-  .edc{grid-template-columns:1fr;gap:18px}
+  .edc,.edc-infinity{grid-template-columns:1fr;gap:18px}
   .edc-graphic{max-width:360px;margin:0 auto}
 }
 @media(max-width:560px){.edc-cards{grid-template-columns:1fr}}
