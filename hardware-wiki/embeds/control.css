@@ -1,0 +1,43 @@
+/* Controller signal architecture (board designed at 1450 x 815, scaled to fit) */
+.page{width:100%;padding:8px 0 20px}
+h1{margin:0;color:var(--burg);font-size:clamp(30px,3.6vw,48px);letter-spacing:-.045em}
+.intro{margin:10px 0 0;max-width:760px;color:var(--muted);font-size:15px;line-height:1.55}
+
+.scale-wrap{width:100%;overflow-x:auto;overflow-y:hidden}
+.board{
+  position:relative;width:1450px;height:815px;transform-origin:top left;
+  border:1px solid var(--line);border-radius:24px;overflow:hidden;
+}
+.zone{position:absolute;border:1.25px dashed;border-radius:18px}
+.zone span{position:absolute;top:-10px;left:18px;background:var(--bg);padding:0 6px;color:var(--burg);font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.powerz{left:4%;top:14%;width:25%;height:70%;border-color:color-mix(in srgb,var(--orange) 50%,transparent)}
+.controlz{left:34%;top:7%;width:32%;height:82%;border-color:color-mix(in srgb,var(--blue) 45%,transparent)}
+.outputz{left:70%;top:14%;width:27%;height:70%;border-color:color-mix(in srgb,var(--green) 45%,transparent)}
+
+.board svg{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.base{fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;transition:opacity .18s}
+.base.power{stroke:var(--blue)}
+.base.feedback{stroke:var(--orange)}
+.base.control{stroke:var(--green)}
+.fill-power{fill:var(--blue)}
+.fill-feedback{fill:var(--orange)}
+.fill-control{fill:var(--green)}
+.base.dimpath{opacity:.06}
+.signal-hit{fill:none;stroke:transparent;stroke-width:20;pointer-events:stroke;cursor:pointer}
+.signal-hit:focus-visible{stroke:color-mix(in srgb,var(--burg) 25%,transparent)}
+
+.node{position:absolute;z-index:3;text-align:center;transform:translate(-50%,-50%);transition:opacity .18s,filter .18s}
+.node.dim{opacity:.13;filter:grayscale(.75)}
+.node img{display:block;margin:auto;object-fit:contain;filter:drop-shadow(0 8px 8px var(--shadow))}
+.tag{font-size:9px;color:var(--soft);font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-top:5px}
+.name{font-size:14px;font-weight:800;margin-top:2px}
+.desc{font-size:11px;color:var(--muted);margin-top:2px}
+
+.simple-input{position:absolute;z-index:3;left:18%;top:31%;transform:translate(-50%,-50%);text-align:center;transition:opacity .18s}
+.simple-input .voltage{font-size:23px;font-weight:850;color:var(--blue)}
+.simple-input.dim{opacity:.13}
+
+.signal-label{position:absolute;z-index:4;background:var(--bg);padding:2px 6px;border-radius:5px;font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;transition:opacity .18s}
+.signal-label.power{color:var(--blue)}
+.signal-label.control{color:var(--green)}
+.signal-label.feedback{color:var(--orange)}

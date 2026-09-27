@@ -1,0 +1,65 @@
+/* Fluid & airflow architecture board (designed at 1600 px, scaled to fit) */
+.wrap{width:100%;padding:4px 0 10px}
+.arch-scale-wrap{width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
+.arch-scale-inner{width:1600px;transform-origin:top left}
+
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.top h1{margin:0;color:var(--burg);font-size:30px;letter-spacing:.02em}
+.hint{font-size:14px;color:var(--muted)}
+.filters .filter{font-size:12px;padding:10px 18px}
+
+.board{position:relative;width:1600px;height:715px;margin-top:18px}
+.zone{position:absolute;border:1.4px dashed;border-radius:18px;z-index:0;overflow:visible}
+.zone span{position:absolute;top:-22px;left:20px;padding:0 4px;line-height:1;font-size:13px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--burg)}
+.zone.liquid{left:34px;top:70px;width:575px;height:545px;border-color:color-mix(in srgb,var(--blue) 55%,transparent)}
+.zone.mixing{left:630px;top:190px;width:350px;height:310px;border-color:color-mix(in srgb,var(--burg) 45%,transparent)}
+.zone.monitor{left:995px;top:190px;width:190px;height:310px;border-color:color-mix(in srgb,var(--orange) 60%,transparent)}
+.zone.airzone{left:1200px;top:60px;width:365px;height:565px;border-color:color-mix(in srgb,var(--green) 55%,transparent)}
+
+.board svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.board path{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;transition:opacity .18s,stroke-width .18s}
+[data-flow="gel"]{stroke:var(--green)}
+[data-flow="diluent"]{stroke:var(--blue)}
+[data-flow="mixed"]{stroke:var(--mixed)}
+[data-flow="air"]{stroke:var(--teal)}
+.board path.dim{opacity:.08}
+.board path.hot{stroke-width:4}
+
+.flow-particles{stroke-width:5.2!important;stroke-dasharray:2 11;animation:flowTravel 2.15s linear infinite;opacity:.9}
+.flow-particles[data-flow="mixed"]{stroke-dasharray:3 13;animation-duration:2.45s}
+.flow-particles[data-flow="air"]{stroke-dasharray:2 10;animation-duration:1.9s}
+.flow-particles.flow-dim{opacity:0}
+.flow-particles.flow-hot{stroke-width:6.2!important;opacity:1}
+@keyframes flowTravel{to{stroke-dashoffset:-64}}
+
+.component{position:absolute;z-index:2;text-align:center;transition:opacity .18s,filter .18s}
+.component.dim{opacity:.13;filter:grayscale(.7)}
+.component:hover .photo{transform:scale(1.025)}
+.photo{position:absolute;left:0;right:0;margin:auto;display:flex;align-items:center;justify-content:center;transition:transform .18s}
+.photo img{max-width:100%;max-height:100%;object-fit:contain;display:block;filter:drop-shadow(0 5px 5px var(--shadow))}
+.labels{position:absolute;left:0;right:0;text-align:center}
+.tag{font-size:10px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:var(--soft)}
+.name{font-size:15px;font-weight:800;margin-top:3px;line-height:1.12}
+.desc{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.2}
+
+/* atomised spray leaving the nozzle face */
+.spray{position:absolute;z-index:6;left:1320px;top:520px;width:150px;height:100px;pointer-events:none;transition:opacity .22s}
+.spray.off{opacity:0}
+.spray i{
+  position:absolute;left:72px;top:42px;width:var(--s);height:var(--s);border-radius:50%;
+  background:var(--teal);opacity:.78;animation:sprayFront 2.15s ease-out infinite;animation-delay:var(--d);
+}
+@keyframes sprayFront{
+  0%{opacity:.1;transform:translate(calc(-1 * var(--x) + 18px),var(--y)) scale(.65)}
+  22%{opacity:.9}
+  100%{opacity:0;transform:translate(calc(-1 * var(--x) - 34px),calc(var(--y) * 1.45)) scale(1.15)}
+}
+.arch-scale-inner .legend{font-size:13px;gap:26px}
+
+/* subsystem specs under the board */
+.specs-section{padding-top:22px}
+.specs-head{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:20px}
+.specs-head small{color:var(--soft);font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+.specs-head h2{margin:6px 0 0;font-size:32px;letter-spacing:-.04em;color:var(--ink)}
+.specs-head p{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+@media(max-width:850px){.specs-head{grid-template-columns:1fr;gap:12px}}

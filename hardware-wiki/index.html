@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Autonomous Dual-Fluid Drone Sprayer</title>
+<script src="js/theme-init.js"></script>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/edc.css">
+<link rel="stylesheet" href="css/explorer.css">
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+<canvas id="sand" aria-hidden="true"></canvas>
+
+<div class="page-layout">
+<aside class="side-toc" aria-label="On this page">
+  <div class="toc-title">On this page</div>
+  <div class="toc-list">
+    <div class="toc-track"><div class="toc-progress"></div></div>
+    <a href="#hero">Overview</a>
+    <a href="#biocompatible">Biocompatibility</a>
+    <a href="#explorer">Design explorer</a>
+    <a href="#results">Experimental results</a>
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="#challenge">Engineering challenges</a>
+    <a href="#build">Open hardware</a>
+    <a href="#bom">Bill of materials</a>
+    <a href="#future">What's next</a>
+  </div>
+  <button id="theme-toggle" type="button" aria-label="Toggle dark mode">
+    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    <span class="label-dark">Dark mode</span><span class="label-light">Light mode</span>
+  </button>
+</aside>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero-top">
+    <div>
+      <div class="eyebrow">Hardware · Autonomous Spraying</div>
+      <h1>Autonomous Dual-Fluid Drone Sprayer</h1>
+      <div class="hero-tagline">Deliver living formulations from the air.</div>
+    </div>
+    <p class="hero-copy">Independent fluid metering, onboard mixing, pressure feedback, and air-assisted atomization in one compact drone payload.</p>
+  </div>
+  <div class="hero-media placeholder">Full-width drone + payload render / cinematic video</div>
+  <div class="hero-specs">
+    <div class="hero-spec"><strong>Dual-Fluid</strong><span>Independent formulation + diluent</span></div>
+    <div class="hero-spec"><strong>Bio-Compatible</strong><span>Designed for living formulations</span></div>
+    <div class="hero-spec"><strong>Air-Assisted</strong><span>Controlled atomization</span></div>
+    <div class="hero-spec"><strong>Drone-Ready</strong><span>Compact modular payload</span></div>
+  </div>
+</section>
+
+<!-- ============ 01 BIOCOMPATIBILITY ============ -->
+<section id="biocompatible">
+  <div class="section-head">
+    <div><div class="eyebrow">01 · Biocompatibility</div><h2>Engineered around biology.</h2></div>
+    <p>The wetted path is designed around living formulations, not conventional chemical spraying. Select a component to see how it protects the cells.</p>
+  </div>
+  <div class="bio-layout">
+    <div class="penta" id="penta"></div>
+    <div class="bio-detail" id="bioDetail" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ 02 DESIGN EXPLORER ============ -->
+<section id="explorer">
+  <div class="section-head">
+    <div><div class="eyebrow">02 · Design Explorer</div><h2>Every part, every lap of the cycle.</h2></div>
+    <p>Choose a component to see how it evolved: rotate the preview, step through its iterations, and follow the engineering design cycle behind each one.</p>
+  </div>
+
+  <div class="xp-select" role="tablist" aria-label="Components"></div>
+
+  <div class="xp-main">
+    <div>
+      <div class="xp-viewer card">
+        <div class="xp-modes"></div>
+        <div class="xp-count"></div>
+        <div class="xp-hint"></div>
+      </div>
+      <dl class="spec-list xp-specs"></dl>
+    </div>
+    <div class="xp-break">
+      <div class="kicker xp-label"></div>
+      <h3 class="xp-title"></h3>
+      <p class="xp-body"></p>
+      <div class="iter-nav">
+        <div class="iter-track"><div class="iter-fill"></div></div>
+        <div class="iter-dots xp-dots" role="group" aria-label="Iterations"></div>
+      </div>
+      <div class="xp-cycle"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 EXPERIMENTAL RESULTS ============ -->
+<section id="results">
+  <div class="section-head">
+    <div><div class="eyebrow">03 · Experimental Results</div><h2>Tested, not just designed.</h2></div>
+    <p>Every headline claim becomes a measured specification as testing is completed. Placeholders will be replaced with measured results.</p>
+  </div>
+  <div class="results-grid">
+    <div class="viability card" id="viability"></div>
+    <div class="metric-grid" id="metrics"></div>
+  </div>
+</section>
+
+<!-- ============ 04 FEATURES ============ -->
+<section id="features">
+  <div class="section-head">
+    <div><div class="eyebrow">04 · Features</div><h2>Small enough to fly. Smart enough to adapt.</h2></div>
+    <p>Select a feature to see the detail.</p>
+  </div>
+  <div class="picker cols-4" id="featurePicker" role="tablist"></div>
+  <div class="panel" data-key="lightweight" id="feat-lightweight"></div>
+  <div class="panel" data-key="compact" id="feat-compact"></div>
+  <div class="panel" data-key="modular" id="feat-modular"></div>
+  <div class="panel" data-key="adaptive" id="feat-adaptive">
+    <iframe class="embed" data-lazy data-src="embeds/adaptive.html" title="Interactive adaptive formulation ratio control" scrolling="no"></iframe>
+  </div>
+</section>
+
+<!-- ============ 05 HOW IT WORKS ============ -->
+<section id="how-it-works">
+  <div class="section-head">
+    <div><div class="eyebrow">05 · How It Works</div><h2>From metering to mist.</h2></div>
+    <p>One controller, three actuators and continuous pressure feedback. Choose the spray system or the electronics to explore the architecture.</p>
+  </div>
+  <div class="function-strip">
+    <div><strong>Meter</strong><span>Pumps</span></div>
+    <div><strong>Monitor</strong><span>Pressure</span></div>
+    <div><strong>Atomize</strong><span>Compressor</span></div>
+    <div><strong>Adapt</strong><span>Controller</span></div>
+  </div>
+  <div class="picker cols-2" id="hiwPicker" role="tablist">
+    <button type="button" role="tab" class="pick" data-key="spray">
+      <span class="kicker"><span>A</span></span><strong>Spray system</strong>
+      <p>How two independently metered streams become one controlled spray.</p>
+      <span class="stat">Fluid + airflow architecture</span>
+    </button>
+    <button type="button" role="tab" class="pick" data-key="electronics">
+      <span class="kicker"><span>B</span></span><strong>Electronics</strong>
+      <p>The ESP32 signal hub and the two voltage rails that power it all.</p>
+      <span class="stat">Control signals · Power distribution</span>
+    </button>
+  </div>
+  <div class="panel" data-key="spray" id="hiw-spray">
+    <iframe class="embed" data-lazy data-src="embeds/fluid.html" title="Interactive fluid and airflow architecture" scrolling="no"></iframe>
+  </div>
+  <div class="panel" data-key="electronics" id="hiw-electronics">
+    <div class="sub-pills">
+      <button type="button" class="pill on" data-key="control">Control signal architecture</button>
+      <button type="button" class="pill" data-key="power">Power distribution</button>
+    </div>
+    <div class="sub-panel" data-key="control">
+      <iframe class="embed" data-lazy data-src="embeds/control.html" title="Interactive controller signal architecture" scrolling="no"></iframe>
+    </div>
+    <div class="sub-panel" data-key="power" hidden>
+      <iframe class="embed" data-lazy data-src="embeds/power.html" title="Interactive power distribution" scrolling="no"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 ENGINEERING CHALLENGES ============ -->
+<section id="challenge">
+  <div class="section-head">
+    <div><div class="eyebrow">06 · Engineering Challenges</div><h2>Why the system had to be different.</h2></div>
+    <p>The design choices above respond directly to the limitations of conventional biological and drone spraying systems.</p>
+  </div>
+  <div class="challenge-grid" id="challengeGrid"></div>
+</section>
+
+<!-- ============ 07 OPEN HARDWARE ============ -->
+<section id="build">
+  <div class="section-head">
+    <div><div class="eyebrow">07 · Open Hardware</div><h2>Open. Modular. Reproducible.</h2></div>
+    <p>Detailed build resources will let others reproduce, adapt, and validate the platform.</p>
+  </div>
+  <div class="build-grid" id="buildGrid"></div>
+  <div class="guide-row" id="guideRow"></div>
+</section>
+
+<!-- ============ 08 BILL OF MATERIALS ============ -->
+<section id="bom">
+  <div class="section-head">
+    <div><div class="eyebrow">08 · Bill of Materials</div><h2 id="bomHeadline"></h2></div>
+    <p>A low-cost component architecture keeps the prototype accessible and easy to reproduce.</p>
+  </div>
+  <div class="bom-summary" id="bomSummary"></div>
+  <div class="bom-filters" id="bomFilters"></div>
+  <div class="bom-wrap">
+    <table class="bom">
+      <thead><tr><th>Component</th><th>System</th><th class="num">Qty</th><th class="num">Unit Cost</th><th class="num">Subtotal</th><th>Supplier</th></tr></thead>
+      <tbody id="bomBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 09 WHAT'S NEXT ============ -->
+<section id="future">
+  <div class="section-head">
+    <div><div class="eyebrow">09 · What's Next</div><h2>The platform is designed to keep evolving.</h2></div>
+    <p>Future work moves the prototype from controlled delivery toward a fully adaptive field system.</p>
+  </div>
+  <div class="future-grid" id="futureGrid"></div>
+  <div class="final-render placeholder">Final drone + payload render / video</div>
+</section>
+
+</main>
+</div>
+
+<footer>Dunelock 2026 · Hardware</footer>
+
+<!-- editable content -->
+<script src="content/tank-content.js"></script>
+<script src="content/design-cycle-content.js"></script>
+<script src="content/biocompat-content.js"></script>
+<script src="content/results-content.js"></script>
+<script src="content/features-content.js"></script>
+<script src="content/page-content.js"></script>
+<script src="tank/tank-model.js"></script>
+<!-- behaviour -->
+<script src="js/site.js"></script>
+<script src="js/edc.js"></script>
+<script src="js/tank.js"></script>
+<script src="js/sections.js"></script>
+<script src="js/explorer.js"></script>
+</body>
+</html>

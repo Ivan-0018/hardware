@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Controller Signal Architecture</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="embed-base.css">
+<link rel="stylesheet" href="control.css">
+</head>
+<body>
+<div class="page">
+  <h1>Controller Signal Architecture</h1>
+  <p class="intro" id="intro"></p>
+  <div class="filters">
+    <button class="filter active" data-f="all">All</button>
+    <button class="filter" data-f="power">5 V Power</button>
+    <button class="filter" data-f="control">Control Outputs</button>
+    <button class="filter" data-f="feedback">Pressure Feedback</button>
+  </div>
+
+  <div class="scale-wrap" id="scaleWrap">
+    <div class="board" id="board">
+      <div class="zone powerz"><span>Inputs</span></div>
+      <div class="zone controlz"><span>Central Controller</span></div>
+      <div class="zone outputz"><span>Actuator Drivers</span></div>
+
+      <svg viewBox="0 0 1450 820" preserveAspectRatio="none">
+        <defs>
+          <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" class="fill-power"/></marker>
+          <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" class="fill-feedback"/></marker>
+          <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" class="fill-control"/></marker>
+        </defs>
+        <path class="base power"    d="M 300 250 H 560"                marker-end="url(#arrowBlue)"/>
+        <path class="base feedback" d="M 300 525 H 470 V 480 H 560"    marker-end="url(#arrowOrange)"/>
+        <path class="base control"  d="M 815 350 H 1025 V 225 H 1130"  marker-end="url(#arrowGreen)"/>
+        <path class="base control"  d="M 815 405 H 1130"               marker-end="url(#arrowGreen)"/>
+        <path class="base control"  d="M 815 460 H 1025 V 585 H 1130"  marker-end="url(#arrowGreen)"/>
+        <!-- wide invisible hit areas so each signal line can be clicked -->
+        <path class="signal-hit" data-info="signal-5v"       d="M 300 250 H 560"/>
+        <path class="signal-hit" data-info="signal-pressure" d="M 300 525 H 470 V 480 H 560"/>
+        <path class="signal-hit" data-info="signal-pwm-1"    d="M 815 350 H 1025 V 225 H 1130"/>
+        <path class="signal-hit" data-info="signal-pwm-2"    d="M 815 405 H 1130"/>
+        <path class="signal-hit" data-info="signal-pwm-3"    d="M 815 460 H 1025 V 585 H 1130"/>
+      </svg>
+
+      <div class="simple-input power"><div class="tag">Power Input</div><div class="voltage">5 V DC</div><div class="desc">Controller supply</div></div>
+
+      <div class="signal-label power"    style="left:18%;top:25%">5 V POWER</div>
+      <div class="signal-label control"  style="left:62%;top:35%">PWM · GPIO 4</div>
+      <div class="signal-label control"  style="left:62%;top:49%">PWM · GPIO 5</div>
+      <div class="signal-label control"  style="left:62%;top:63%">PWM · GPIO 6</div>
+      <div class="signal-label feedback" style="left:20%;top:57%">PRESSURE FEEDBACK</div>
+
+      <div class="node power control feedback" style="left:50%;top:49%;width:320px">
+        <img src="../assets/img/esp32.png" alt="" style="width:300px;height:265px;transform:rotate(90deg)">
+        <div class="tag">Controller</div><div class="name">ESP32-S3 LoRa V3</div><div class="desc">Central signal hub</div>
+      </div>
+      <div class="node feedback" style="left:18%;top:64%;width:160px">
+        <img src="../assets/img/pressure-sensor.png" alt="" style="width:105px;height:125px">
+        <div class="tag">Feedback</div><div class="name">Pressure Sensor</div><div class="desc">0–10 bar</div>
+      </div>
+      <div class="node control" style="left:82%;top:27%;width:190px">
+        <img src="../assets/img/mosfet.png" alt="" style="width:150px;height:120px">
+        <div class="tag">PWM · GPIO 4</div><div class="name">MOSFET 1</div><div class="desc">Pump 1</div>
+      </div>
+      <div class="node control" style="left:82%;top:50%;width:190px">
+        <img src="../assets/img/mosfet.png" alt="" style="width:150px;height:120px">
+        <div class="tag">PWM · GPIO 5</div><div class="name">MOSFET 2</div><div class="desc">Pump 2</div>
+      </div>
+      <div class="node control" style="left:82%;top:72%;width:190px">
+        <img src="../assets/img/mosfet.png" alt="" style="width:150px;height:120px">
+        <div class="tag">PWM · GPIO 6</div><div class="name">MOSFET 3</div><div class="desc">Compressor</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><i style="background:var(--red)"></i>12 V Input</span>
+    <span><i style="background:var(--blue)"></i>5 V Logic Power</span>
+    <span><i style="background:var(--green)"></i>ESP32 Control Output</span>
+    <span><i style="background:var(--orange)"></i>Pressure Feedback</span>
+  </div>
+
+  <div class="detail">
+    <div><small>Selected Signal</small><h2 id="dt"></h2></div>
+    <div class="specs" id="ds"></div>
+  </div>
+</div>
+
+<script src="../content/how-it-works-content.js"></script>
+<script src="embed-bridge.js"></script>
+<script src="control.js"></script>
+</body>
+</html>

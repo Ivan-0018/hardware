@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Power Distribution</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="embed-base.css">
+<link rel="stylesheet" href="power.css">
+</head>
+<body>
+<div class="page">
+  <h1>Power Distribution</h1>
+  <p class="intro" id="intro"></p>
+
+  <div class="filters">
+    <button class="filter active" data-f="all">All</button>
+    <button class="filter" data-f="v12">12 V Rail</button>
+    <button class="filter" data-f="v5">5 V Rail</button>
+  </div>
+
+  <div class="board">
+    <div class="rail-row row12">
+      <div class="rail-label">
+        <div class="voltage" style="color:var(--red)">12 V</div>
+        <div class="caption">Main Power Rail</div>
+      </div>
+      <div class="rail-wrap">
+        <div class="rail v12"></div>
+        <div class="pulse v12pulse"></div>
+
+        <div class="loads three">
+          <div class="load v12load" data-info="pump1">
+            <div class="name">Pump 1</div>
+            <div class="sub">Treatment delivery</div>
+            <div class="badge">12 V DC</div>
+          </div>
+          <div class="load v12load" data-info="pump2">
+            <div class="name">Pump 2</div>
+            <div class="sub">Diluent delivery</div>
+            <div class="badge">12 V DC</div>
+          </div>
+          <div class="load v12load" data-info="compressor">
+            <div class="name">Compressor</div>
+            <div class="sub">Air atomization</div>
+            <div class="badge">12 V DC</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="converter" data-info="buck">
+      <div class="converter-box">
+        <div class="small">Voltage Conversion</div>
+        <div class="main">12 V → 5 V</div>
+      </div>
+      <div class="converter-arrow"></div>
+    </div>
+
+    <div class="rail-row row5">
+      <div class="rail-label">
+        <div class="voltage" style="color:var(--blue)">5 V</div>
+        <div class="caption">Logic + Sensing Rail</div>
+      </div>
+      <div class="rail-wrap">
+        <div class="rail v5"></div>
+        <div class="pulse v5pulse"></div>
+
+        <div class="loads two">
+          <div class="load v5load" data-info="esp32">
+            <div class="name">ESP32</div>
+            <div class="sub">Controller</div>
+            <div class="badge">5 V DC</div>
+          </div>
+          <div class="load v5load" data-info="sensor">
+            <div class="name">Pressure Sensor</div>
+            <div class="sub">Monitoring</div>
+            <div class="badge">5 V DC</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><i style="background:var(--red)"></i>12 V Main Rail</span>
+    <span><i style="background:var(--blue)"></i>5 V Logic Rail</span>
+  </div>
+
+  <div class="detail">
+    <div>
+      <small>Selected Rail</small>
+      <h2 id="detailTitle"></h2>
+    </div>
+    <div class="specs" id="detailSpecs"></div>
+  </div>
+</div>
+
+<script src="../content/how-it-works-content.js"></script>
+<script src="embed-bridge.js"></script>
+<script src="power.js"></script>
+</body>
+</html>

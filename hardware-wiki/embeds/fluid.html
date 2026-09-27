@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fluid and Airflow Architecture</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="embed-base.css">
+<link rel="stylesheet" href="fluid.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="arch-scale-wrap" id="archWrap">
+    <div class="arch-scale-inner" id="archInner">
+      <div class="top">
+        <h1>FLUID &amp; AIRFLOW ARCHITECTURE</h1>
+        <div class="hint">Select a subsystem, or click a component</div>
+      </div>
+      <div class="filters">
+        <button class="filter active" data-f="all">All</button>
+        <button class="filter" data-f="pumps">Pumps</button>
+        <button class="filter" data-f="mixing">Mixing</button>
+        <button class="filter" data-f="air">Air / Atomization</button>
+        <button class="filter" data-f="monitoring">Monitoring</button>
+        <button class="filter" data-f="connections">Connections</button>
+      </div>
+
+      <div class="board">
+        <div class="zone liquid"><span>Liquid Section</span></div>
+        <div class="zone mixing"><span>Mixing Section</span></div>
+        <div class="zone monitor"><span>Monitoring Section</span></div>
+        <div class="zone airzone"><span>Air / Atomization Section</span></div>
+
+        <svg viewBox="0 0 1600 715" width="1600" height="715" id="flowSvg">
+          <!-- treatment: tank -> pump 1 -> Y upper inlet -->
+          <path class="wire pumps connections" data-flow="gel" d="M 240 212 H 375"/>
+          <path class="wire pumps mixing connections" data-flow="gel" d="M 485 212 H 585 V 339 H 671"/>
+          <!-- diluent: tank -> pump 2 -> Y lower inlet -->
+          <path class="wire pumps connections" data-flow="diluent" d="M 240 488 H 375"/>
+          <path class="wire pumps mixing connections" data-flow="diluent" d="M 485 488 H 585 V 366 H 671"/>
+          <!-- mixed: Y -> mixer -> sensor -> nozzle -->
+          <path class="wire mixing connections" data-flow="mixed" d="M 713 352 H 795"/>
+          <path class="wire mixing monitoring connections" data-flow="mixed" d="M 915 352 H 1025"/>
+          <path class="wire monitoring connections" data-flow="mixed" d="M 1108 352 H 1188 V 505 H 1360 V 515 H 1390"/>
+          <!-- air: compressor -> regulator -> nozzle -->
+          <path class="wire air connections" data-flow="air" d="M 1350 212 H 1392"/>
+          <path class="wire air connections" data-flow="air" d="M 1490 212 H 1528 V 445 H 1450 V 470"/>
+        </svg>
+
+        <div class="component pumps" style="left:65px;top:140px;width:180px;height:210px">
+          <div class="photo" style="top:0;height:145px"><img src="../assets/img/gel-tank.png" alt=""></div>
+          <div class="labels" style="top:150px"><div class="tag">Solution</div><div class="name">Gel Tank</div><div class="desc">Up to 500 mL</div></div>
+        </div>
+        <div class="component pumps" style="left:360px;top:145px;width:150px;height:200px">
+          <div class="photo" style="top:0;height:135px"><img src="../assets/img/peristaltic-pump.png" alt=""></div>
+          <div class="labels" style="top:145px"><div class="tag">Gel Line</div><div class="name">Pump 1</div><div class="desc">Peristaltic · P240</div></div>
+        </div>
+        <div class="component pumps" style="left:65px;top:416px;width:180px;height:210px">
+          <div class="photo" style="top:0;height:145px"><img src="../assets/img/diluent-tank.png" alt=""></div>
+          <div class="labels" style="top:150px"><div class="tag">Diluent</div><div class="name">Diluent Tank</div><div class="desc">Up to 500 mL</div></div>
+        </div>
+        <div class="component pumps" style="left:360px;top:420px;width:150px;height:200px">
+          <div class="photo" style="top:0;height:135px"><img src="../assets/img/peristaltic-pump.png" alt=""></div>
+          <div class="labels" style="top:145px"><div class="tag">Diluent Line</div><div class="name">Pump 2</div><div class="desc">Peristaltic · P240</div></div>
+        </div>
+        <div class="component mixing" style="left:635px;top:292px;width:140px;height:180px">
+          <div class="photo" style="top:0;height:120px"><img src="../assets/img/y-connector.png" alt=""></div>
+          <div class="labels" style="top:128px"><div class="tag">Mixing</div><div class="name">Y-Connector</div><div class="desc">Stream convergence</div></div>
+        </div>
+        <div class="component mixing" style="left:790px;top:302px;width:185px;height:165px">
+          <div class="photo" style="top:0;height:105px"><img src="../assets/img/diaphragm-pump.svg" alt=""></div>
+          <div class="labels" style="top:115px"><div class="tag">Mixing</div><div class="name">Diaphragm Pump</div><div class="desc">Blends + pressurizes</div></div>
+        </div>
+        <div class="component monitoring" style="left:1010px;top:270px;width:155px;height:225px">
+          <div class="photo" style="top:0;height:135px"><img src="../assets/img/pressure-sensor.png" alt=""></div>
+          <div class="labels" style="top:158px"><div class="tag">Monitoring</div><div class="name">Pressure Sensor</div><div class="desc">0–10 bar</div></div>
+        </div>
+        <div class="component air" style="left:1210px;top:140px;width:170px;height:205px">
+          <div class="photo" style="top:0;height:118px"><img src="../assets/img/air-compressor.png" alt=""></div>
+          <div class="labels" style="top:126px"><div class="tag">Air</div><div class="name">Air Compressor</div><div class="desc">12 V DC</div></div>
+        </div>
+        <div class="component air" style="left:1385px;top:140px;width:150px;height:205px">
+          <div class="photo" style="top:0;height:140px"><img src="../assets/img/pressure-regulator.png" alt=""></div>
+          <div class="labels" style="top:150px"><div class="tag">Air</div><div class="name">Pressure Regulator</div><div class="desc">Adjustable</div></div>
+        </div>
+        <div class="component air" style="left:1325px;top:438px;width:230px;height:190px">
+          <div class="photo" style="top:0;height:90px"><img src="../assets/img/nozzle.png" alt=""></div>
+          <div class="labels" style="top:98px"><div class="tag">Spray</div><div class="name">Air-Assisted Nozzle</div><div class="desc">Dual-fluid atomization</div></div>
+        </div>
+
+        <div class="spray" id="spray" aria-hidden="true">
+          <i style="--x:0px;--y:0px;--s:5px;--d:0s"></i>
+          <i style="--x:18px;--y:-7px;--s:4px;--d:.18s"></i>
+          <i style="--x:22px;--y:8px;--s:5px;--d:.35s"></i>
+          <i style="--x:40px;--y:-14px;--s:3px;--d:.5s"></i>
+          <i style="--x:42px;--y:2px;--s:5px;--d:.72s"></i>
+          <i style="--x:48px;--y:18px;--s:4px;--d:.9s"></i>
+          <i style="--x:62px;--y:-22px;--s:3px;--d:1.05s"></i>
+          <i style="--x:68px;--y:-5px;--s:5px;--d:1.2s"></i>
+          <i style="--x:70px;--y:15px;--s:4px;--d:1.35s"></i>
+          <i style="--x:86px;--y:-28px;--s:3px;--d:1.5s"></i>
+          <i style="--x:90px;--y:0px;--s:5px;--d:1.65s"></i>
+          <i style="--x:92px;--y:26px;--s:4px;--d:1.8s"></i>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span><i style="background:var(--green)"></i>Gel / Treatment Solution</span>
+        <span><i style="background:var(--blue)"></i>Diluent</span>
+        <span><i style="background:var(--mixed)"></i>Mixed Solution</span>
+        <span><i style="background:var(--teal)"></i>Compressed Air</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="specs-section">
+    <div class="specs-head">
+      <div><small>Subsystem Specs</small><h2 id="specTitle"></h2></div>
+      <p id="specSummary"></p>
+    </div>
+    <div class="specs" id="specGrid"></div>
+  </section>
+</div>
+
+<script src="../content/how-it-works-content.js"></script>
+<script src="embed-bridge.js"></script>
+<script src="fluid.js"></script>
+</body>
+</html>

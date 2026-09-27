@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Adaptive Formulation</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="embed-base.css">
+<link rel="stylesheet" href="adaptive.css">
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <div>
+      <h1>Set the ratio. Control the formulation.</h1>
+      <p class="subtitle">Choose the treatment:diluent ratio onboard and control the formulation through the complete mixing path.</p>
+    </div>
+
+    <div class="control">
+      <div class="control-title">Treatment : Diluent Ratio Setpoint</div>
+      <div class="ratio-row">
+        <div class="side g">Treatment<strong id="treatmentPct">67%</strong></div>
+        <div class="range">
+          <div class="track"></div>
+          <input id="slider" type="range" min="5" max="95" step="1" value="67">
+        </div>
+        <div class="side b">Diluent<strong id="diluentPct">33%</strong></div>
+      </div>
+      <div class="ratio-main" id="ratioMain">2:1</div>
+      <div class="lock-state"><span></span> SELECTED RATIO · ACTIVE SETPOINT</div>
+      <div class="presets">
+        <button data-v="10">1:9</button>
+        <button data-v="20">1:4</button>
+        <button data-v="33">1:2</button>
+        <button data-v="50">1:1</button>
+        <button class="active" data-v="67">2:1</button>
+        <button data-v="75">3:1</button>
+        <button data-v="80">4:1</button>
+        <button data-v="90">9:1</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="visual">
+    <svg viewBox="0 0 1500 500" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gelGrad" x1="0" x2="1">
+          <stop offset="0" stop-color="#49682c"/>
+          <stop offset=".18" stop-color="#637f35"/>
+          <stop offset=".48" stop-color="#819d4b"/>
+          <stop offset=".76" stop-color="#6d8b3e"/>
+          <stop offset="1" stop-color="#8caa60"/>
+        </linearGradient>
+        <linearGradient id="waterGrad" x1="0" x2="1">
+          <stop offset="0" stop-color="#13486d"/>
+          <stop offset=".23" stop-color="#1d628f"/>
+          <stop offset=".55" stop-color="#347fac"/>
+          <stop offset=".78" stop-color="#266c99"/>
+          <stop offset="1" stop-color="#54a0c0"/>
+        </linearGradient>
+        <linearGradient id="mixedGrad" x1="0" x2="1">
+          <stop id="mixA" offset="0" stop-color="#789647"/>
+          <stop id="mixB" offset=".5" stop-color="#55947d"/>
+          <stop id="mixC" offset="1" stop-color="#64a2a6"/>
+        </linearGradient>
+      </defs>
+
+      <!-- subtle shadows -->
+      <path id="gShadow" class="body-shadow" d="M-120 130 C150 105 325 160 485 218 C605 261 700 274 820 281" stroke-width="100"/>
+      <path id="bShadow" class="body-shadow" d="M-120 372 C150 390 335 350 520 322 C650 301 735 291 820 281" stroke-width="74"/>
+      <path class="body-shadow" d="M815 281 C1020 279 1200 287 1540 281" stroke-width="86"/>
+
+      <!-- solid glossy underlay streams -->
+      <path id="gelBody" class="gel-body" d="M-120 130 C150 105 325 160 485 218 C605 261 700 274 820 281" stroke-width="84"/>
+      <path id="waterBody" class="water-body" d="M-120 372 C150 390 335 350 520 322 C650 301 735 291 820 281" stroke-width="58"/>
+      <path id="mixedBodyPath" class="mixed-body" d="M820 281 C1020 279 1200 287 1540 281" stroke-width="70"/>
+
+      <!-- realistic specular highlight ridges -->
+      <path id="gelEdge1" class="edge-light" d="M-110 106 C155 88 330 145 492 201 C610 242 705 253 817 261" stroke-width="7"/>
+      <path id="gelEdge2" class="soft-light" d="M-100 150 C155 130 330 180 488 236 C610 278 700 288 814 294" stroke-width="14"/>
+      <path id="gelRidge" class="dark-ridge" d="M-110 162 C150 137 330 190 485 245 C605 286 700 298 814 302" stroke-width="9"/>
+
+      <path id="waterEdge1" class="edge-light" d="M-110 354 C155 371 335 333 525 306 C652 287 737 279 817 270" stroke-width="6"/>
+      <path id="waterEdge2" class="soft-light" d="M-100 390 C155 406 335 366 520 339 C650 320 735 309 814 300" stroke-width="11"/>
+      <path id="waterRidge" class="dark-ridge" d="M-105 397 C155 414 335 373 520 347 C648 329 735 317 812 307" stroke-width="7"/>
+
+      <path class="edge-light" d="M820 260 C1020 258 1200 266 1535 260" stroke-width="9"/>
+      <path class="soft-light" d="M820 299 C1020 297 1200 304 1535 299" stroke-width="12"/>
+
+      <!-- transparent animated reflection ribbons -->
+      <path id="gelMotion1" class="liquid-motion" d="M-120 123 C150 98 325 153 485 211 C605 254 700 266 820 273" stroke-width="8"/>
+      <path id="gelMotion2" class="liquid-motion secondary" d="M-120 146 C150 121 325 176 485 234 C605 277 700 289 820 296" stroke-width="5"/>
+
+      <path id="waterMotion1" class="liquid-motion" d="M-120 366 C150 384 335 344 520 316 C650 295 735 286 820 276" stroke-width="6"/>
+      <path id="waterMotion2" class="liquid-motion secondary" d="M-120 386 C150 404 335 364 520 336 C650 315 735 306 820 296" stroke-width="4"/>
+
+      <path class="liquid-motion" d="M820 276 C1020 274 1200 282 1540 276" stroke-width="6"/>
+      <path class="liquid-motion secondary" d="M820 294 C1020 292 1200 300 1540 294" stroke-width="4"/>
+
+      <!-- additional fine gloss to make the liquid feel wetter -->
+      <path class="micro-gloss" d="M-100 116 C165 94 330 149 486 205 C610 248 705 259 816 268" stroke-width="4"/>
+      <path class="micro-gloss alt" d="M-90 153 C160 132 327 183 486 239 C607 281 700 291 814 297" stroke-width="3"/>
+      <path class="micro-gloss" d="M-98 357 C155 374 336 337 520 310 C650 290 734 282 816 273" stroke-width="3.5"/>
+      <path class="micro-gloss alt" d="M-94 386 C155 402 336 364 520 337 C650 317 734 308 814 299" stroke-width="2.8"/>
+      <path class="micro-gloss" d="M822 266 C1010 264 1200 271 1535 266" stroke-width="4"/>
+    </svg>
+
+    <div class="guide g1"></div>
+    <div class="guide g2"></div>
+    <div class="guide g3"></div>
+    <div class="guide g4"></div>
+
+    <div class="y-label">Y-CONNECTOR</div>
+    <div class="m-label">DIAPHRAGM PUMP</div>
+    <div class="tick y"></div>
+    <div class="tick m"></div>
+
+    <div class="merge-glow"></div>
+
+    <div class="mixer">
+      <div class="helix" id="helix"></div>
+      <div class="glass-glare"></div>
+    </div>
+    <div class="mixing-ribbon"></div>
+
+    <div class="outlet">TO NOZZLE<br>(ATOMIZATION)</div>
+  </div>
+
+  <div class="info">
+    <div class="info-card" style="--accent:var(--green)">
+      <strong>Treatment Stream</strong>
+      <p>Viscous formulation metered according to the selected ratio.</p>
+    </div>
+    <div class="info-card" style="--accent:var(--blue)">
+      <strong>Diluent Stream</strong>
+      <p>Carrier flow adjusts relative to treatment flow to achieve the selected formulation.</p>
+    </div>
+    <div class="info-card" style="--accent:var(--burg)">
+      <strong>Controlled Ratio Mixing</strong>
+      <p>Both streams converge and are homogenized at the selected treatment:diluent setpoint.</p>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><small>Selected Ratio</small><strong id="metricRatio">2:1</strong></div>
+    <div class="metric"><small>Treatment Fraction</small><strong id="metricTreatment">67%</strong></div>
+    <div class="metric"><small>Diluent Fraction</small><strong id="metricDiluent">33%</strong></div>
+    <div class="metric"><small>Control Objective</small><strong>Maintain setpoint</strong></div>
+  </div>
+
+  <div class="note">The ratio control sets the relative contribution of each stream. The mixing path combines both fluids at the selected formulation setpoint.</div>
+</div>
+
+<script src="embed-bridge.js"></script>
+<script src="adaptive.js"></script>
+</body>
+</html>
