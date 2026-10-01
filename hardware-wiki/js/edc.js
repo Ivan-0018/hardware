@@ -136,16 +136,24 @@
       halo.setAttribute("cx", p[0]); halo.setAttribute("cy", p[1]);
       prog.style.strokeDasharray = fr * LEN + " " + LEN;
     }
-    function animateTo(fTarget, dur, done) {
+    const wrap1 = (f) => ((f % 1) + 1) % 1;
+    // opts.force: animate even when the visitor prefers reduced motion (used for the
+    // short, click-triggered wind / unwind so the loops are always seen peeling off)
+    // opts.ease: "inout" (default) or "brisk" (quick start, steady middle, soft stop)
+    function animateTo(fTarget, dur, done, onFrame, o) {
       cancelAnimationFrame(raf);
-      if (reduce || dur <= 0) { fCur = fTarget % 1; place(fCur); if (done) done(); return; }
+      const force = o && o.force;
+      if ((reduce && !force) || dur <= 0) { fCur = wrap1(fTarget); place(fCur); if (onFrame) onFrame(fTarget); if (done) done(); return; }
       const from = fCur, dist = fTarget - from, t0 = performance.now();
-      const ease = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+      const ease = o && o.ease === "brisk"
+        ? (p) => (p < 0.12 ? (p / 0.12) * (p / 0.12) * 0.06 : p > 0.88 ? 1 - Math.pow((1 - p) / 0.12, 2) * 0.06 : 0.06 + (p - 0.12) / 0.76 * 0.88)
+        : (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
       (function step(ts) {
         const p = Math.min(1, (ts - t0) / dur);
         fCur = from + dist * ease(p);
         place(fCur);
-        if (p < 1) raf = requestAnimationFrame(step); else { fCur = fTarget % 1; if (done) done(); }
+        if (onFrame) onFrame(fCur);
+        if (p < 1) raf = requestAnimationFrame(step); else { fCur = wrap1(fTarget); if (done) done(); }
       })(t0);
     }
     function paintStage() {
@@ -161,11 +169,15 @@
     }
 
     /* inner loops = previous iterations; click one to jump back to it */
-    function drawLaps() {
+    let lapsShown = -1;
+    function drawLaps(count) {
+      if (count == null) count = cycle;
+      if (count === lapsShown) return;
+      lapsShown = count;
       laps.innerHTML = "";
-      const n = Math.min(cycle, MAX_LAPS);
+      const n = Math.min(count, MAX_LAPS);
       for (let i = n - 1; i >= 0; i--) {
-        const iter = cycle - 1 - i; // i = 0 is the most recent previous iteration
+        const iter = count - 1 - i; // i = 0 is the most recent previous iteration
         const d = pathD(shape, shape.lapScale(i));
         const lap = el("g", { class: "edc-lap-group", tabindex: 0, role: "button",
           "aria-label": "Go to iteration " + (iter + 1) + (titles[iter] ? ": " + titles[iter] : "") }, laps);
@@ -195,29 +207,50 @@
       new IntersectionObserver((es) => { visible = es.some((e) => e.isIntersecting); }, { threshold: 0.35 }).observe(host);
     }
 
+    const LAP_MS = 380;   // time per loop when winding / unwinding several cycles
     function setCycle(i, tot, title, texts, o) {
-      const forward = i > cycle;
+      const prev = cycle;
+      const instant = !!(o && o.instant);
+      clearTimeout(playTimer); // a pending autoplay step must not interrupt this animation
       cycle = i;
-      if (o && o.titles) titles = o.titles;
-      titleEl.textContent = "Cycle " + pad2(i + 1) + (title ? " · " + title : "");
-      showCount(i, tot);
-      cards.forEach((c, k) => {
-        const t = (texts && texts[stages[k].key]) || "To add.";
-        const p = c.querySelector("p");
-        p.textContent = t;
-        p.classList.toggle("todo", /^to add/i.test(t));
-      });
-      drawLaps();
+      if (o && o.titles) { titles = o.titles; lapsShown = -1; }
+      const writeText = () => {
+        titleEl.textContent = "Cycle " + pad2(i + 1) + (title ? " · " + title : "");
+        cards.forEach((c, k) => {
+          const t = (texts && texts[stages[k].key]) || "To add.";
+          const p = c.querySelector("p");
+          p.textContent = t;
+          p.classList.toggle("todo", /^to add/i.test(t));
+        });
+      };
       userStopped = !!(o && o.noAutoplay);
       stage = 0; paintStage();
-      if (forward && !(o && o.instant)) {
-        // finish the current lap, then start the new cycle at stage 1
-        const target = Math.ceil(fCur - stageF(0) + 1e-6) + stageF(0);
-        animateTo(target, 1100, autoplay);
+      const s0 = stageF(0);
+      const lapOf = (f) => Math.floor(f - s0 + 1e-6);   // which lap f is in (laps start at stage 1)
+      let ms = 0;   // how long the wind / unwind takes (returned so other animations can match it)
+      if (instant || i === prev) {
+        writeText(); drawLaps(i); showCount(i, tot);
+        animateTo(s0, instant ? 0 : 450, autoplay);
       } else {
-        animateTo(stageF(0), o && o.instant ? 0 : 450, autoplay);
+        // any jump forward or back: run quickly around the loop once per cycle,
+        // adding (forward) or peeling off (back) one inner loop at every lap
+        const steps = i - prev;                        // + forward, - back
+        const startLap = lapOf(fCur);
+        const target = (steps > 0 ? startLap + 1 : startLap) + s0 + (steps > 0 ? steps - 1 : steps);
+        const dur = Math.min(3400, 300 + Math.abs(target - fCur) * LAP_MS);
+        ms = dur;
+        drawLaps(prev); showCount(prev, tot);
+        animateTo(target, dur, () => { writeText(); drawLaps(i); showCount(i, tot); autoplay(); }, (f) => {
+          const lapStart = startLap + s0;
+          let c = steps > 0
+            ? prev + Math.floor(f - lapStart + 1e-6)             // a loop is added as each lap completes
+            : prev - Math.floor(lapStart - f + 1e-6);            // a loop peels off as each lap is unwound
+          c = Math.max(Math.min(prev, i), Math.min(Math.max(prev, i), c));
+          drawLaps(c); showCount(c, tot);
+        }, { force: true, ease: "brisk" });
       }
       if (opts.onStage) opts.onStage(0);
+      return ms;
     }
 
     place(fCur); paintStage();

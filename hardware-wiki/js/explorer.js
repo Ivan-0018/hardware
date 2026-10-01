@@ -150,10 +150,11 @@
     count.textContent = pad2(k + 1) + " / " + pad2(its.length);
     [...dotsEl.children].forEach((d, i) => { d.classList.toggle("on", i === k); d.classList.toggle("passed", i <= k); });
     fill.style.width = (its.length > 1 ? (k / (its.length - 1)) * 100 : 100) + "%";
-    if (mode === "evo" && S.frames && framePlayer) framePlayer.goTo(k);
     if (mode === "evo" && S.flow) renderFlow(k);
     const titles = its.map((x) => x.short || x.title);
-    edc.setCycle(k, its.length, it.short || it.title, it.cycle, first ? { instant: true, titles } : { titles });
+    // the cycle diagram and the tank morph start together and finish together
+    const ms = edc.setCycle(k, its.length, it.short || it.title, it.cycle, first ? { instant: true, titles } : { titles });
+    if (mode === "evo" && S.frames && framePlayer) framePlayer.goTo(k, false, { dur: ms });
   }
 
   function select(k) {

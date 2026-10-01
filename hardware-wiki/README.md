@@ -25,14 +25,14 @@ Text starting with "To add" is shown greyed out as a placeholder.
 
 ## Structure
 
-- `css/tokens.css` — light and dark colours (dark follows the Tank-design website)
+- `css/tokens.css` — Dunelock day/night colours and fonts (Super Dream + Lexend, loaded from static.igem.wiki)
 - `css/main.css`, `css/edc.css`, `css/explorer.css` — page styles
 - `js/site.js` — theme toggle, side list, circle cursor, floating sand, iframe bridge
 - `js/edc.js` — engineering design cycle diagram. Switch between infinity and circle with `shape` at the top of `content/design-cycle-content.js`
 - `js/tank.js` (tank morph player), `js/sections.js`, `js/explorer.js`
 - `embeds/` — the four interactive diagrams, each as its own html/css/js
-- `assets/img/` — component images. `diaphragm-pump.svg` is a drawn stand-in: swap in a photo when you have one
-- `tank/frames/` (light) and `tank/frames-dark/` — iteration morph frames
+- `assets/img/` — component images. `diaphragm-pump.svg` and `generic-nozzle.svg` are drawn stand-ins: swap in photos when you have them
+- `tank/frames-light/` (day) and `tank/frames-dark/` (night) — iteration morph frames. `tank/frames/` is the older brown set, no longer used
 
 ## Viewing locally
 

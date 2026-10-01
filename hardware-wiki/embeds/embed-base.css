@@ -5,12 +5,15 @@ html,body{
   background:transparent;          /* lets the parent's sand + background show through */
   color:var(--ink);
   font-family:var(--font);
+  font-weight:300;
   overflow:hidden;
   scrollbar-width:none;
   transition:color .4s ease;
 }
 body::-webkit-scrollbar,*::-webkit-scrollbar{display:none}
 html.has-cursor,html.has-cursor *{cursor:none!important}
+
+strong,b,h1,h2,h3{font-weight:600}
 
 /* shared filter pills */
 .filters{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}

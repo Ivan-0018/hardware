@@ -1,67 +1,95 @@
 /* ============================================================
-   DESIGN TOKENS — shared by the main pages and every embed.
-   Light = original hardware-wiki palette.
-   Dark  = warm dark palette from the Tank-design website.
+   DESIGN TOKENS — shared by the page and every embed.
+   Matches the Dunelock wiki (2026.igem.wiki/nyu-abu-dhabi):
+   Day   = cream + deep red,  Night = navy + teal / gold
+   Fonts = Super Dream (display) + Lexend (text)
    ============================================================ */
+@font-face{font-family:"Super Dream";src:url("https://static.igem.wiki/teams/6086/wiki/fonts/superdream-ax3ve.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Lexend";src:url("https://static.igem.wiki/teams/6086/wiki/fonts/lexend-light-cljlvlwl.ttf") format("truetype");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Lexend";src:url("https://static.igem.wiki/teams/6086/wiki/fonts/lexend-semibold-b1fi2xqt.ttf") format("truetype");font-weight:600 900;font-style:normal;font-display:swap}
+
 :root,
 html[data-theme="light"]{
   color-scheme:light;
-  --bg:#f7efdf;
-  --bg2:#efe4d0;
-  --paper:#fffaf1;
-  --card:rgba(255,250,241,.55);
-  --card-solid:#fbf5e8;
-  --ink:#2b211d;
-  --muted:#74645b;
-  --soft:#9a6955;          /* small uppercase labels */
-  --faint:#bba894;         /* placeholder numbers */
-  --ghost:#dfcdc4;         /* big decorative numerals */
-  --burg:#781813;          /* primary accent */
-  --on-burg:#fffaf1;       /* text on accent */
-  --line:#dcc7ad;
-  --line-2:#e6d8c5;
-  --dash:#c9b69e;          /* placeholder / dashed borders */
-  --green:#2f7f3d;
-  --blue:#2d67c7;
-  --teal:#2f7f86;
-  --orange:#c98228;
-  --red:#c94a3d;
-  --gel:#72973f;
-  --mixed:#24272a;
-  --shadow:rgba(80,55,35,.14);
-  --backdrop:rgba(32,27,23,.34);
-  --sand:#9a5f33;
-  --sand2:#a5737d;
-  --cursor:#781813;
-  --font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  /* Dunelock palette (day) */
+  --dl-yellow:#ffc235;
+  --dl-rose:#ae7b81;
+  --dl-teal:#94c2bb;
+  --dl-orange:#99451a;
+  --dl-red:#600000;
+  --dl-cream:#fff6e2;
+
+  --bg:#fff6e2;
+  --bg2:#fbe7bd;
+  --paper:#fffaf0;
+  --card:rgba(255,250,240,.62);
+  --card-solid:#fffaf0;
+  --heading:#3c1b10;       /* big statement headings */
+  --ink:#600000;           /* body text */
+  --muted:#795447;
+  --soft:#99451a;          /* small uppercase labels */
+  --faint:#c2a58c;         /* placeholder numbers */
+  --ghost:#f0dcc0;         /* big decorative numerals */
+  --burg:#600000;          /* primary accent */
+  --on-burg:#fff6e2;       /* text on accent */
+  --accent2:#ffc235;       /* gold highlight */
+  --line:rgb(96 0 0 / .16);
+  --line-2:rgb(96 0 0 / .09);
+  --dash:rgb(96 0 0 / .28);
+  --green:#4f7f35;
+  --blue:#2f69b3;
+  --teal:#3e8c82;
+  --orange:#99451a;
+  --red:#b8432f;
+  --gel:#7a9a3f;
+  --mixed:#3c1b10;
+  --shadow:rgba(120,70,20,.16);
+  --backdrop:rgba(60,27,16,.34);
+  --sand:#99451a;
+  --sand2:#ae7b81;
+  --cursor:#600000;
+  --hero-glow:linear-gradient(180deg,#fff6e2 0%,#fcebc2 55%,#f8d98b 100%);
+  --font:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-display:"Super Dream","Cooper Black","Arial Black",sans-serif;
 }
 html[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#1e1512;
-  --bg2:#271b16;
-  --paper:#2a1d18;
-  --card:rgba(42,29,24,.62);
-  --card-solid:#2a1d18;
-  --ink:#F2E7CF;
-  --muted:#b7a58f;
-  --soft:#c99aa3;
-  --faint:#7d6858;
-  --ghost:#4a352c;
-  --burg:#c99aa3;          /* rose accent (tank website, dark) */
-  --on-burg:#1e1512;
-  --line:#3b2c25;
-  --line-2:#33251f;
-  --dash:#4d3a30;
-  --green:#8fbf78;
-  --blue:#7ea6e6;
-  --teal:#94C2BB;
-  --orange:#e0a257;
-  --red:#e08476;
-  --gel:#93b865;
-  --mixed:#d8cbb4;
-  --shadow:rgba(0,0,0,.55);
-  --backdrop:rgba(0,0,0,.55);
-  --sand:#b89b6f;
-  --sand2:#bd8a94;
-  --cursor:#c99aa3;
+  /* Dunelock palette (night) */
+  --dl-yellow:#f3bd68;
+  --dl-rose:#cf9aad;
+  --dl-teal:#78cec1;
+  --dl-orange:#df9361;
+  --dl-red:#f7edd8;
+  --dl-cream:#0b1725;
+
+  --bg:#0b1725;
+  --bg2:#07111d;
+  --paper:#122536;
+  --card:rgba(18,37,54,.62);
+  --card-solid:#122536;
+  --heading:#f7edd8;
+  --ink:#f7edd8;
+  --muted:#a9c3c0;
+  --soft:#78cec1;
+  --faint:#4f6b73;
+  --ghost:#1a3144;
+  --burg:#78cec1;          /* teal accent at night */
+  --on-burg:#07111d;
+  --accent2:#f3bd68;
+  --line:#9bd3ca30;
+  --line-2:#9bd3ca1c;
+  --dash:#9bd3ca52;
+  --green:#8fc478;
+  --blue:#7fb0ee;
+  --teal:#78cec1;
+  --orange:#df9361;
+  --red:#e98a7a;
+  --gel:#9cc36a;
+  --mixed:#e2f0ec;
+  --shadow:rgba(0,0,0,.5);
+  --backdrop:rgba(3,8,14,.6);
+  --sand:#d5a056;
+  --sand2:#cf9aad;
+  --cursor:#78cec1;
+  --hero-glow:radial-gradient(120% 90% at 70% 10%,#1d3b4a 0%,#0b1725 55%,#07111d 100%);
 }
