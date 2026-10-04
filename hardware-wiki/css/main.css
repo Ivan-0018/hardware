@@ -100,7 +100,7 @@ html[data-theme="dark"] .hero h1{color:var(--heading)}
 html[data-theme="dark"] .hero-tagline{color:var(--accent2)}
 .hero-copy{max-width:560px;color:var(--muted);font-size:16px;line-height:1.6}
 .hero-media{height:320px;margin-top:28px}
-.hero-specs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:26px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.hero-specs{display:grid;grid-auto-columns:1fr;grid-auto-flow:column;margin-top:26px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .hero-spec{padding:18px 20px 18px 0}
 .hero-spec + .hero-spec{border-left:1px solid var(--line);padding-left:22px}
 .hero-spec strong{display:block;color:var(--burg);font-size:14px;text-transform:uppercase;letter-spacing:.08em}
@@ -261,6 +261,21 @@ html[data-theme="dark"] .hero-tagline{color:var(--accent2)}
 .big-stat strong{display:block;font-size:64px;color:var(--faint);letter-spacing:-.06em;line-height:.9}
 .big-stat span{display:block;margin-top:8px;color:var(--muted);font-size:10px;letter-spacing:.09em;text-transform:uppercase;font-weight:900}
 .big-stat p{margin-top:18px;color:var(--muted);font-size:13px;line-height:1.55}
+/* cards with only a heading (index2: FEATURES blurbs left empty) */
+.picker.plain-cards .pick{text-align:center;align-items:center;justify-content:center;min-height:0;padding:26px 18px}
+.picker.plain-cards .pick strong{font-size:27px;letter-spacing:-.03em;line-height:1.15}
+.picker.plain-cards .pick .stat{margin-top:10px}
+.big-stat strong.todo,.stat-row strong.todo{font-style:italic;color:var(--faint)}
+.big-stat strong.todo{font-size:34px;letter-spacing:-.02em}
+.stat-row strong.todo{font-size:17px}
+@media (max-width:860px){.picker.plain-cards .pick strong{font-size:22px}}
+
+/* simple feature panels (index2: FEATURES.simple = true) */
+.feat-simple{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:center}
+.feat-simple>div:last-child h3{font-size:30px;letter-spacing:-.03em}
+.feat-simple>div:last-child p{margin-top:12px;color:var(--muted);font-size:14px;line-height:1.6}
+.feat-simple .big-stat strong.todo{font-size:30px;font-style:italic;letter-spacing:-.02em;color:var(--faint)}
+@media (max-width:860px){.feat-simple{grid-template-columns:1fr;gap:22px}}
 .dimension-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .ortho{min-height:280px;position:relative}
 .dimension-label{position:absolute;background:var(--bg);padding:4px 8px;color:var(--burg);font-size:13px;font-weight:900;letter-spacing:0}
@@ -301,12 +316,15 @@ html[data-theme="dark"] .hero-tagline{color:var(--accent2)}
 .challenge .answer{margin-top:10px;text-transform:none;letter-spacing:0;font-weight:500;font-size:13px}
 .challenge .answer b{color:var(--burg)}
 
-.build-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.build-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px}
 .build-card{min-height:170px;padding:22px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;transition:.18s}
 .build-card:hover{transform:translateY(-3px);border-color:var(--burg)}
 .build-card small{color:var(--soft);font-size:9px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
 .build-card strong{margin-top:auto;color:var(--burg);font-size:22px}
 .build-card span{margin-top:8px;color:var(--muted);font-size:12px}
+/* cards with only a title (index2: the documents to upload) */
+.build-card.plain{min-height:120px;justify-content:center}
+.build-card.plain strong{margin-top:0;font-size:20px}
 .guide-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
 .guide-pill{border:1px solid var(--line);border-radius:999px;padding:9px 13px;color:var(--muted);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.07em}
 
@@ -360,7 +378,7 @@ html.has-cursor,html.has-cursor *{cursor:none!important}
   .bio-detail{border-left:0;border-top:1px solid var(--line);padding:20px 0 0;min-height:0}
   .hero-top,.section-head,.bio-layout,.tank-evo,.tank-final,.results-grid,.weight-layout,.dimension-grid,.modular-layout{grid-template-columns:1fr}
   .section-head{gap:14px}
-  .hero-specs{grid-template-columns:1fr 1fr}
+  .hero-specs{grid-auto-flow:row;grid-template-columns:1fr 1fr}
   .hero-spec:nth-child(3){border-left:0;padding-left:0}
   .hero-spec:nth-child(n+3){border-top:1px solid var(--line)}
   .tank-evo{gap:20px}

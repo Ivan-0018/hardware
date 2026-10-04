@@ -59,7 +59,10 @@
       detail.innerHTML =
         '<div class="fade-in"><div class="kicker">' + pad2(i + 1) + " · " + esc(c.role) + "</div>" +
         "<h3>" + esc(c.title) + "</h3><p>" + esc(c.text) + "</p>" +
-        '<dl class="bio-specs">' + c.specs.map((s) => "<div><dt>" + esc(s[0]) + "</dt><dd>" + esc(s[1]) + "</dd></div>").join("") + "</dl></div>";
+        // the spec rows are optional: leave "specs" out (or empty) to show only the text
+        ((c.specs && c.specs.length)
+          ? '<dl class="bio-specs">' + c.specs.map((s) => "<div><dt>" + esc(s[0]) + "</dt><dd>" + esc(s[1]) + "</dd></div>").join("") + "</dl>"
+          : "") + "</div>";
     }
     select(0);
 
@@ -108,21 +111,38 @@
     const F = window.FEATURES, cardsEl = $("featurePicker");
     if (!F || !cardsEl) return;
     const keys = ["lightweight", "compact", "modular", "adaptive"];
+    const numbered = F.numbered !== false;
     cardsEl.innerHTML = keys.map((k, i) =>
-      '<button type="button" role="tab" class="pick" data-key="' + k + '"><span class="kicker"><span>' + pad2(i + 1) + "</span></span>" +
-      "<strong>" + esc(F[k].name) + "</strong><p>" + esc(F[k].blurb) + '</p><span class="stat">' + esc(F[k].stat) + "</span></button>").join("");
+      '<button type="button" role="tab" class="pick" data-key="' + k + '">' +
+      (numbered ? '<span class="kicker"><span>' + pad2(i + 1) + "</span></span>" : "") +
+      "<strong>" + esc(F[k].name) + "</strong>" + (F[k].blurb ? "<p>" + esc(F[k].blurb) + "</p>" : "") +
+      (F[k].stat ? '<span class="stat">' + esc(F[k].stat) + "</span>" : "") + "</button>").join("");
 
+    if (F.simple) {
+      // plain panels: heading, one key value and a short description (no placeholder graphics)
+      ["lightweight", "compact", "modular"].forEach((k) => {
+        const f = F[k], el = $("feat-" + k);
+        if (!el) return;
+        const todo = /^to add/i.test(f.value || "");
+        el.innerHTML = '<div class="feat-simple">' +
+          (f.value ? '<div class="big-stat"><strong' + (todo ? ' class="todo"' : "") + ">" + esc(f.value) + "</strong>" +
+            (f.valueLabel ? "<span>" + esc(f.valueLabel) + "</span>" : "") + "</div>" : "") +
+          '<div><h3>' + esc(f.heading || f.name) + "</h3><p>" + esc(f.text || f.blurb) + "</p></div></div>";
+      });
+    } else {
     const L = F.lightweight, C = F.compact, M = F.modular;
     $("feat-lightweight").innerHTML =
       '<div class="sub-head"><h3>' + esc(L.heading) + "</h3><span>" + esc(L.note) + "</span></div>" +
       '<div class="weight-layout"><div class="exploded placeholder">' +
       L.parts.map((p) => '<div class="mass-node"><strong>' + esc(p[0]) + "</strong><span>" + esc(p[1]) + "</span></div>").join("") +
-      '</div><div class="big-stat"><strong>' + esc(L.total) + "</strong><span>" + esc(L.totalLabel) + "</span><p>" + esc(L.target) + "</p></div></div>";
+      '</div><div class="big-stat"><strong' + (/^to add/i.test(L.total) ? ' class="todo"' : "") + ">" + esc(L.total) +
+      "</strong><span>" + esc(L.totalLabel) + "</span><p>" + esc(L.target) + "</p></div></div>";
     $("feat-compact").innerHTML =
       '<div class="sub-head"><h3>' + esc(C.heading) + "</h3><span>" + esc(C.note) + "</span></div>" +
       '<div class="dimension-grid">' + C.views.map((v) =>
         '<div class="ortho placeholder">' + esc(v.caption) + ' (CAD to add)<span class="dimension-label ' + v.side + '">' + esc(v.label) + "</span></div>").join("") + "</div>" +
-      '<div class="stat-row">' + C.stats.map((s) => "<div><strong>" + esc(s[0]) + "</strong><span>" + esc(s[1]) + "</span></div>").join("") + "</div>";
+      '<div class="stat-row">' + C.stats.map((s) => "<div><strong" + (/^to add/i.test(s[0]) ? ' class="todo"' : "") + ">" +
+        esc(s[0]) + "</strong><span>" + esc(s[1]) + "</span></div>").join("") + "</div>";
     $("feat-modular").innerHTML =
       '<div class="sub-head"><h3>' + esc(M.heading) + "</h3><span>" + esc(M.note) + "</span></div>" +
       '<div class="modular-layout"><div class="modular-visual placeholder">' +
@@ -131,6 +151,7 @@
       '<div class="payload">SPRAYER<br>PAYLOAD</div></div>' +
       '<div><div class="point-list">' + M.points.map((p) => "<div><strong>" + esc(p[0]) + "</strong><span>" + esc(p[1]) + "</span></div>").join("") +
       '</div><p class="hint" style="font-size:18px;color:var(--burg);font-weight:800;letter-spacing:-.02em">' + esc(M.closing) + "</p></div></div>";
+    }
 
     const panels = [...document.querySelectorAll("#features .panel")];
     const show = picker(cardsEl, panels, (k) => lazyEmbeds($("feat-" + k)));
@@ -159,14 +180,16 @@
     const P = window.PAGE;
     if (!P) return;
     if ($("challengeGrid")) $("challengeGrid").innerHTML = P.challenges.map((c, i) =>
-      '<div class="challenge"><div class="n">' + pad2(i + 1) + "</div><h3>" + esc(c.title) + "</h3><p>" + esc(c.tags) + "</p>" +
+      '<div class="challenge"><div class="n">' + pad2(i + 1) + "</div><h3>" + esc(c.title) + "</h3>" + (c.tags ? "<p>" + esc(c.tags) + "</p>" : "") +
       (c.answer ? '<p class="answer"><b>Our answer:</b> ' + esc(c.answer) + "</p>" : "") + "</div>").join("");
 
     /* open hardware */
     if ($("buildGrid")) {
       $("buildGrid").innerHTML = P.openHardware.cards.map((c) =>
-        '<a class="build-card card" href="' + esc(c.href) + '"><small>' + esc(c.small) + "</small><strong>" + esc(c.title) + " &rarr;</strong><span>" + esc(c.text) + "</span></a>").join("");
-      $("guideRow").innerHTML = P.openHardware.guides.map((g) => '<span class="guide-pill">' + esc(g) + "</span>").join("");
+        '<a class="build-card card' + (c.small || c.text ? "" : " plain") + '" href="' + esc(c.href) + '">' +
+        (c.small ? "<small>" + esc(c.small) + "</small>" : "") + "<strong>" + esc(c.title) + " &rarr;</strong>" +
+        (c.text ? "<span>" + esc(c.text) + "</span>" : "") + "</a>").join("");
+      if ($("guideRow")) $("guideRow").innerHTML = (P.openHardware.guides || []).map((g) => '<span class="guide-pill">' + esc(g) + "</span>").join("");
     }
 
     /* bill of materials */
@@ -183,7 +206,7 @@
           '<td class="num">' + (it.unitCost == null ? "TBD" : money(it.unitCost)) + '</td><td class="num">' + (sub == null ? "TBD" : money(sub)) + "</td>" +
           "<td>" + (it.url ? '<a target="_blank" rel="noopener" href="' + esc(it.url) + '">' + esc(it.supplier) + " &nearr;</a>" : esc(it.supplier)) + "</td></tr>";
       }).join("");
-      $("bomSummary").innerHTML =
+      if ($("bomSummary")) $("bomSummary").innerHTML =
         "<div><strong>" + bom.items.length + "</strong><span>Component types</span></div>" +
         "<div><strong>" + count + "</strong><span>Total components</span></div>" +
         "<div><strong>" + money(total) + (tbd ? "+" : "") + "</strong><span>Current listed hardware cost</span></div>";

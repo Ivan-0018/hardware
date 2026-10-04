@@ -1,51 +1,52 @@
 /* ============================================================
-   FEATURES — editable information
-   One entry per feature card. "stat" is the short line on the card.
-   The adaptive-formulation panel is the interactive embed
-   (embeds/adaptive.html); its card text is edited here.
+   FEATURES — editable information  (version 2, index2.html)
+   numbered: false -> no 01/02/03 numbers on the cards
+   blurb: ""       -> no text under the card heading
+   (set "simple: true" to collapse the panels to a single
+    value + line instead of the full panels below)
+   The adaptive panel is the interactive embed (embeds/adaptive.html).
+   Text starting with "To add" is shown greyed out.
    ============================================================ */
 window.FEATURES = {
 
+  numbered: false,
+
   lightweight: {
     name: "Lightweight",
-    stat: "Target < 2.6 kg",
-    blurb: "Every gram matters on a drone.",
+    blurb: "",
     heading: "Every gram matters.",
     note: "Mass breakdown will be populated from the final assembly and measured component weights.",
     parts: [["Tanks", "XXX g"], ["Pumps", "XXX g"], ["Compressor", "XXX g"], ["Electronics", "XXX g"]],
-    total: "X.XX kg",
+    total: "To add",
     totalLabel: "Complete payload",
-    target: "Design target: < 2.6 kg. Final percentage below target will appear here after weighing."
+    target: "The whole sprayer payload is kept as light as possible so it can fly without eating into the drone's endurance. The measured weight goes here."
   },
 
   compact: {
     name: "Compact",
-    stat: "180 × 210 mm footprint",
-    blurb: "A complete spraying system in a small footprint.",
+    blurb: "",
     heading: "A complete spraying system in a compact footprint.",
     note: "Final orthographic views will replace these placeholders once the assembly dimensions are locked.",
-    views: [{ label: "210 mm", side: "bottom", caption: "Top view" }, { label: "XXX mm", side: "side", caption: "Side view" }],
-    stats: [["2 × 500 mL", "Reservoir capacity"], ["180 × 210 mm", "Target footprint"], ["XXX mm", "Overall height"], ["< 2.6 kg", "Target payload"]]
+    views: [{ label: "XXX mm", side: "bottom", caption: "Top view" }, { label: "XXX mm", side: "side", caption: "Side view" }],
+    stats: [["2 × 500 mL", "Reservoir capacity"], ["To add", "Footprint"], ["To add", "Overall height"], ["To add", "Payload weight"]]
   },
 
   modular: {
     name: "Modular",
-    stat: "Multiple drone platforms",
-    blurb: "Designed around the payload, not one aircraft.",
+    blurb: "",
     heading: "Designed around the payload, not one aircraft.",
-    note: "Adjustable mounting features allow the sprayer architecture to be adapted to different drone platforms.",
+    note: "Allows easy integration with multiple manned and unmanned vehicles.",
     drones: ["Drone A", "Drone B", "Drone C"],
     points: [
       ["Adjustable mounting", "Rail / clamp interface adapts to different frames. (Visual to add.)"],
       ["Stackable tanks", "The same tank design stacks on itself, so the number and order of tanks can change."],
-      ["Replaceable wetted parts", "Tubing, mixer and nozzle can be swapped between runs."]
+      ["Replaceable wetted parts", "Tubing and nozzle can be swapped between runs."]
     ],
-    closing: "One payload architecture. Multiple drone platforms."
+    closing: "One payload architecture. Multiple vehicles, manned and unmanned."
   },
 
   adaptive: {
-    name: "Adaptive formulation",
-    stat: "Ratio set onboard",
-    blurb: "Choose the treatment : diluent ratio in flight."
+    name: "Adaptive mix ratios",
+    blurb: ""
   }
 };

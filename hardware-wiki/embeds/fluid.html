@@ -38,9 +38,8 @@
           <!-- diluent: tank -> pump 2 -> Y lower inlet -->
           <path class="wire pumps connections" data-flow="diluent" d="M 240 488 H 375"/>
           <path class="wire pumps mixing connections" data-flow="diluent" d="M 485 488 H 585 V 366 H 671"/>
-          <!-- mixed: Y -> mixer -> sensor -> nozzle -->
-          <path class="wire mixing connections" data-flow="mixed" d="M 713 352 H 795"/>
-          <path class="wire mixing monitoring connections" data-flow="mixed" d="M 915 352 H 1025"/>
+          <!-- mixed: Y -> sensor -> nozzle -->
+          <path class="wire mixing monitoring connections" data-flow="mixed" d="M 713 352 H 1025"/>
           <path class="wire monitoring connections" data-flow="mixed" d="M 1108 352 H 1188 V 505 H 1360 V 515 H 1390"/>
           <!-- air: compressor -> regulator -> nozzle -->
           <path class="wire air connections" data-flow="air" d="M 1350 212 H 1392"/>
@@ -66,10 +65,6 @@
         <div class="component mixing" style="left:635px;top:292px;width:140px;height:180px">
           <div class="photo" style="top:0;height:120px"><img src="../assets/img/y-connector.png" alt=""></div>
           <div class="labels" style="top:128px"><div class="tag">Mixing</div><div class="name">Y-Connector</div><div class="desc">Stream convergence</div></div>
-        </div>
-        <div class="component mixing" style="left:790px;top:302px;width:185px;height:165px">
-          <div class="photo" style="top:0;height:105px"><img src="../assets/img/diaphragm-pump.svg" alt=""></div>
-          <div class="labels" style="top:115px"><div class="tag">Mixing</div><div class="name">Diaphragm Pump</div><div class="desc">Blends + pressurizes</div></div>
         </div>
         <div class="component monitoring" style="left:1010px;top:270px;width:155px;height:225px">
           <div class="photo" style="top:0;height:135px"><img src="../assets/img/pressure-sensor.png" alt=""></div>
@@ -113,13 +108,6 @@
     </div>
   </div>
 
-  <section class="specs-section">
-    <div class="specs-head">
-      <div><small>Subsystem Specs</small><h2 id="specTitle"></h2></div>
-      <p id="specSummary"></p>
-    </div>
-    <div class="specs" id="specGrid"></div>
-  </section>
 </div>
 
 <script src="../content/how-it-works-content.js"></script>

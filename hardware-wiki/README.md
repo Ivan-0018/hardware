@@ -5,6 +5,11 @@
 The Design Explorer lets you pick sprayer system / tank / nozzle and see the
 preview (Evolution or 3D), the iterations and the engineering design cycle.
 
+`index.html` now carries the write-up version: no Experimental Results section,
+heading-only feature cards, the biocompatibility text from the write-up, seven
+tank iterations, three sprayer iterations, two nozzle iterations and a
+spray-system board without the diaphragm pump.
+
 `prototype-version2.html` is the previous single-file version, left untouched.
 
 ## Editing text and numbers
@@ -19,7 +24,11 @@ Everything that changes lives in `content/` — edit these, not the HTML:
 | `content/results-content.js` | Viability and test results |
 | `content/features-content.js` | Lightweight / compact / modular / adaptive cards |
 | `content/how-it-works-content.js` | Spray system, control signal and power diagram specs + pop-ups |
-| `content/page-content.js` | Engineering challenges, open hardware links, BOM rows, what's next |
+| `content/page-content.js` | Engineering challenges, Open Hardware cards, BOM rows, what's next |
+
+`content/results-content.js` is no longer loaded by the page (the Experimental
+Results section was removed), but is kept in case that section comes back.
+
 
 Text starting with "To add" is shown greyed out as a placeholder.
 
@@ -32,6 +41,7 @@ Text starting with "To add" is shown greyed out as a placeholder.
 - `js/tank.js` (tank morph player), `js/sections.js`, `js/explorer.js`
 - `embeds/` — the four interactive diagrams, each as its own html/css/js
 - `assets/img/` — component images. `diaphragm-pump.svg` and `generic-nozzle.svg` are drawn stand-ins: swap in photos when you have them
+- `models/sprayer-system.glb` — sprayer system 3D model, converted from the SolidWorks part Part5.SLDPRT (`models/sprayer-system-model.js` is an inline copy so it also opens from disk)
 - `tank/frames-light/` (day) and `tank/frames-dark/` (night) — iteration morph frames. `tank/frames/` is the older brown set, no longer used
 
 ## Viewing locally

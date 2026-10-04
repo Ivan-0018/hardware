@@ -22,7 +22,6 @@
     <a href="#hero">Overview</a>
     <a href="#biocompatible">Biocompatibility</a>
     <a href="#explorer">Design explorer</a>
-    <a href="#results">Experimental results</a>
     <a href="#features">Features</a>
     <a href="#how-it-works">How it works</a>
     <a href="#challenge">Engineering challenges</a>
@@ -50,14 +49,12 @@
       <h1>Autonomous Dual-Fluid Drone Sprayer</h1>
       <div class="hero-tagline">Deliver living formulations from the air.</div>
     </div>
-    <p class="hero-copy">Independent fluid metering, onboard mixing, pressure feedback, and air-assisted atomization in one compact drone payload.</p>
   </div>
   <div class="hero-media placeholder">Full-width drone + payload render / cinematic video</div>
   <div class="hero-specs">
-    <div class="hero-spec"><strong>Dual-Fluid</strong><span>Independent formulation + diluent</span></div>
-    <div class="hero-spec"><strong>Bio-Compatible</strong><span>Designed for living formulations</span></div>
-    <div class="hero-spec"><strong>Air-Assisted</strong><span>Controlled atomization</span></div>
-    <div class="hero-spec"><strong>Drone-Ready</strong><span>Compact modular payload</span></div>
+    <div class="hero-spec"><strong>Scalable</strong></div>
+    <div class="hero-spec"><strong>Bio-compatible</strong></div>
+    <div class="hero-spec"><strong>Modular</strong></div>
   </div>
 </section>
 
@@ -65,7 +62,7 @@
 <section id="biocompatible">
   <div class="section-head">
     <div><div class="eyebrow">01 · Biocompatibility</div><h2>Engineered around biology.</h2></div>
-    <p>The wetted path is designed around living formulations, not conventional chemical spraying. Select a component to see how it protects the cells.</p>
+    <p>The system is designed around living biological formulations. Click on a component to see how biocompatibility is integrated.</p>
   </div>
   <div class="bio-layout">
     <div class="penta" id="penta"></div>
@@ -104,25 +101,13 @@
   </div>
 </section>
 
-<!-- ============ 03 EXPERIMENTAL RESULTS ============ -->
-<section id="results">
-  <div class="section-head">
-    <div><div class="eyebrow">03 · Experimental Results</div><h2>Tested, not just designed.</h2></div>
-    <p>Every headline claim becomes a measured specification as testing is completed. Placeholders will be replaced with measured results.</p>
-  </div>
-  <div class="results-grid">
-    <div class="viability card" id="viability"></div>
-    <div class="metric-grid" id="metrics"></div>
-  </div>
-</section>
-
-<!-- ============ 04 FEATURES ============ -->
+<!-- ============ 03 FEATURES ============ -->
 <section id="features">
   <div class="section-head">
-    <div><div class="eyebrow">04 · Features</div><h2>Small enough to fly. Smart enough to adapt.</h2></div>
+    <div><div class="eyebrow">03 · Features</div><h2>Small enough to fly. Smart enough to adapt.</h2></div>
     <p>Select a feature to see the detail.</p>
   </div>
-  <div class="picker cols-4" id="featurePicker" role="tablist"></div>
+  <div class="picker cols-4 plain-cards" id="featurePicker" role="tablist"></div>
   <div class="panel" data-key="lightweight" id="feat-lightweight"></div>
   <div class="panel" data-key="compact" id="feat-compact"></div>
   <div class="panel" data-key="modular" id="feat-modular"></div>
@@ -131,28 +116,18 @@
   </div>
 </section>
 
-<!-- ============ 05 HOW IT WORKS ============ -->
+<!-- ============ 04 HOW IT WORKS ============ -->
 <section id="how-it-works">
   <div class="section-head">
-    <div><div class="eyebrow">05 · How It Works</div><h2>From metering to mist.</h2></div>
-    <p>One controller, three actuators and continuous pressure feedback. Choose the spray system or the electronics to explore the architecture.</p>
+    <div><div class="eyebrow">04 · How It Works</div><h2>From metering to mist.</h2></div>
+    <p>One controller, three actuators and continuous pressure feedback. Choose the mechanical or the electrical architecture to explore it.</p>
   </div>
-  <div class="function-strip">
-    <div><strong>Meter</strong><span>Pumps</span></div>
-    <div><strong>Monitor</strong><span>Pressure</span></div>
-    <div><strong>Atomize</strong><span>Compressor</span></div>
-    <div><strong>Adapt</strong><span>Controller</span></div>
-  </div>
-  <div class="picker cols-2" id="hiwPicker" role="tablist">
+  <div class="picker cols-2 plain-cards" id="hiwPicker" role="tablist">
     <button type="button" role="tab" class="pick" data-key="spray">
-      <span class="kicker"><span>A</span></span><strong>Spray system</strong>
-      <p>How two independently metered streams become one controlled spray.</p>
-      <span class="stat">Fluid + airflow architecture</span>
+      <strong>Mechanical architecture</strong>
     </button>
     <button type="button" role="tab" class="pick" data-key="electronics">
-      <span class="kicker"><span>B</span></span><strong>Electronics</strong>
-      <p>The ESP32 signal hub and the two voltage rails that power it all.</p>
-      <span class="stat">Control signals · Power distribution</span>
+      <strong>Electrical architecture</strong>
     </button>
   </div>
   <div class="panel" data-key="spray" id="hiw-spray">
@@ -172,32 +147,30 @@
   </div>
 </section>
 
-<!-- ============ 06 ENGINEERING CHALLENGES ============ -->
+<!-- ============ 05 ENGINEERING CHALLENGES ============ -->
 <section id="challenge">
   <div class="section-head">
-    <div><div class="eyebrow">06 · Engineering Challenges</div><h2>Why the system had to be different.</h2></div>
+    <div><div class="eyebrow">05 · Engineering Challenges</div><h2>Why the system had to be different.</h2></div>
     <p>The design choices above respond directly to the limitations of conventional biological and drone spraying systems.</p>
   </div>
   <div class="challenge-grid" id="challengeGrid"></div>
 </section>
 
-<!-- ============ 07 OPEN HARDWARE ============ -->
+<!-- ============ 06 OPEN HARDWARE ============ -->
 <section id="build">
   <div class="section-head">
-    <div><div class="eyebrow">07 · Open Hardware</div><h2>Open. Modular. Reproducible.</h2></div>
+    <div><div class="eyebrow">06 · Open Hardware</div><h2>Build resources.</h2></div>
     <p>Detailed build resources will let others reproduce, adapt, and validate the platform.</p>
   </div>
   <div class="build-grid" id="buildGrid"></div>
-  <div class="guide-row" id="guideRow"></div>
 </section>
 
-<!-- ============ 08 BILL OF MATERIALS ============ -->
+<!-- ============ 07 BILL OF MATERIALS ============ -->
 <section id="bom">
   <div class="section-head">
-    <div><div class="eyebrow">08 · Bill of Materials</div><h2 id="bomHeadline"></h2></div>
+    <div><div class="eyebrow">07 · Bill of Materials</div><h2 id="bomHeadline"></h2></div>
     <p>A low-cost component architecture keeps the prototype accessible and easy to reproduce.</p>
   </div>
-  <div class="bom-summary" id="bomSummary"></div>
   <div class="bom-filters" id="bomFilters"></div>
   <div class="bom-wrap">
     <table class="bom">
@@ -207,10 +180,10 @@
   </div>
 </section>
 
-<!-- ============ 09 WHAT'S NEXT ============ -->
+<!-- ============ 08 WHAT'S NEXT ============ -->
 <section id="future">
   <div class="section-head">
-    <div><div class="eyebrow">09 · What's Next</div><h2>The platform is designed to keep evolving.</h2></div>
+    <div><div class="eyebrow">08 · What's Next</div><h2>The platform is designed to keep evolving.</h2></div>
     <p>Future work moves the prototype from controlled delivery toward a fully adaptive field system.</p>
   </div>
   <div class="future-grid" id="futureGrid"></div>
@@ -226,10 +199,10 @@
 <script src="content/tank-content.js"></script>
 <script src="content/design-cycle-content.js"></script>
 <script src="content/biocompat-content.js"></script>
-<script src="content/results-content.js"></script>
 <script src="content/features-content.js"></script>
 <script src="content/page-content.js"></script>
 <script src="tank/tank-model.js"></script>
+<script src="models/sprayer-system-model.js"></script>
 <!-- behaviour -->
 <script src="js/site.js"></script>
 <script src="js/edc.js"></script>

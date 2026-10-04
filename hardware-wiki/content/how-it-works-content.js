@@ -1,10 +1,12 @@
 /* ============================================================
-   HOW IT WORKS — editable information
+   HOW IT WORKS — editable information  (version 2, index2.html)
    Used by the three diagrams in the "How it works" section:
-     fluid   -> spray system diagram      (embeds/fluid.html)
+     fluid   -> spray system diagram      (embeds/fluid2.html)
      control -> control signal diagram    (embeds/control.html)
      power   -> power distribution        (embeds/power.html)
    Each spec is a [label, value] pair. Edit freely.
+   In this version the spray-system board has no spec table, so the
+   "fluid" subsystems only use their title and summary.
    ============================================================ */
 window.HOW_IT_WORKS = {
 
@@ -14,33 +16,27 @@ window.HOW_IT_WORKS = {
     subsystems: {
       all: {
         title: "Complete Flow System",
-        summary: "Two metered liquid streams are combined and atomized using compressed air.",
-        items: [["Liquid Flow", "Up to ~480 mL/min"], ["Liquid Pressure", "0–10 bar monitored"], ["Air Supply", "Regulated compressed air"], ["Control", "Independent pump + air control"]]
+        summary: "Two metered liquid streams are combined and atomized using compressed air."
       },
       pumps: {
         title: "Liquid Delivery",
-        summary: "Two peristaltic pumps meter the treatment and diluent streams independently.",
-        items: [["Pump Type", "Peristaltic"], ["Pump Model", "P240"], ["Nominal Flow", "Up to ~240 mL/min each"], ["Function", "Independent ratio control"]]
+        summary: "Two peristaltic pumps meter the treatment and diluent streams independently."
       },
       mixing: {
         title: "Mixing",
-        summary: "Both streams converge at the Y-connector and are blended in a diaphragm pump immediately before spraying.",
-        items: [["Inlets", "2 liquid streams"], ["Junction", "Y-connector"], ["Mixer", "Diaphragm pump"], ["Purpose", "Onboard formulation blending"]]
+        summary: "Both streams converge at the Y-connector before spraying."
       },
       air: {
         title: "Air / Atomization",
-        summary: "Compressed air provides the atomization energy at the dual-fluid nozzle.",
-        items: [["Compressor", "12 V DC"], ["Pressure", "Regulated"], ["Nozzle", "Dual-fluid / air-assisted"], ["Purpose", "Controlled atomization"]]
+        summary: "Compressed air provides the atomization energy at the dual-fluid nozzle."
       },
       monitoring: {
         title: "Pressure Monitoring",
-        summary: "The sensor measures liquid-line pressure before the nozzle.",
-        items: [["Sensor Range", "0–10 bar"], ["Location", "Post-mixer"], ["Signal", "Controller feedback"], ["Use", "Pressure / clog monitoring"]]
+        summary: "The sensor measures liquid-line pressure before the nozzle."
       },
       connections: {
         title: "Flow Connections",
-        summary: "Colour-coded paths separate treatment, diluent, mixed liquid, and compressed air.",
-        items: [["Green", "Treatment solution"], ["Blue", "Diluent"], ["Neutral", "Mixed liquid"], ["Teal", "Compressed air"]]
+        summary: "Colour-coded paths separate treatment, diluent, mixed liquid, and compressed air."
       }
     },
     // Shown in the pop-up when a component is clicked (key = the name on the board)
@@ -49,9 +45,8 @@ window.HOW_IT_WORKS = {
       "Diluent Tank":       { kicker: "Liquid Storage", role: "Stores the diluent used to adjust the treatment concentration onboard.", specs: [["Capacity", "Up to 500 mL"], ["Stream", "Diluent"], ["Feed", "Pump 2"], ["Function", "Onboard dilution"]] },
       "Pump 1":             { kicker: "Liquid Metering", role: "Meters the treatment stream independently before it enters the Y-connector.", specs: [["Type", "Peristaltic"], ["Model", "P240"], ["Flow", "Up to ~240 mL/min"], ["Control", "Independent / PWM"]] },
       "Pump 2":             { kicker: "Liquid Metering", role: "Meters the diluent independently to control the final formulation ratio.", specs: [["Type", "Peristaltic"], ["Model", "P240"], ["Flow", "Up to ~240 mL/min"], ["Control", "Independent / PWM"]] },
-      "Y-Connector":        { kicker: "Mixing", role: "Combines the independently metered treatment and diluent streams.", specs: [["Inputs", "2 liquid streams"], ["Output", "1 mixed stream"], ["Location", "Pre-mixer"], ["Purpose", "Stream convergence"]] },
-      "Diaphragm Pump":     { kicker: "Mixing", role: "Blends the combined stream and pushes it on towards the nozzle. It replaced the static mixer used in the first sprayer iteration.", specs: [["Type", "Diaphragm pump"], ["Inputs", "Combined stream"], ["Model", "To add"], ["Replaced", "Static mixer"]] },
-      "Pressure Sensor":    { kicker: "Monitoring", role: "Measures post-mixer liquid pressure for feedback and abnormal-condition detection.", specs: [["Range", "0–10 bar"], ["Location", "Post-mixer"], ["Output", "Controller feedback"], ["Use", "Pressure / clog monitoring"]] },
+      "Y-Connector":        { kicker: "Mixing", role: "Combines the independently metered treatment and diluent streams on their way to the nozzle. Check valves stop mixed liquid flowing back into either tank.", specs: [["Inputs", "2 liquid streams"], ["Output", "1 mixed stream"], ["Valves", "Check valves prevent backflow"], ["Purpose", "Mixing before the nozzle"]] },
+      "Pressure Sensor":    { kicker: "Monitoring", role: "Measures liquid-line pressure for feedback and abnormal-condition detection.", specs: [["Range", "0–10 bar"], ["Location", "After the Y-connector"], ["Output", "Controller feedback"], ["Use", "Pressure / clog monitoring"]] },
       "Air Compressor":     { kicker: "Air System", role: "Supplies compressed air used to atomize the mixed liquid at the nozzle.", specs: [["Supply", "12 V DC"], ["Medium", "Compressed air"], ["Control", "Independent"], ["Purpose", "Atomization energy"]] },
       "Pressure Regulator": { kicker: "Air System", role: "Adjusts and stabilizes compressed-air pressure before the nozzle.", specs: [["Input", "Compressor air"], ["Output", "Regulated air"], ["Adjustment", "Manual"], ["Purpose", "Atomization control"]] },
       "Air-Assisted Nozzle":{ kicker: "Atomization", role: "Receives mixed liquid and compressed air through separate ports to generate the spray.", specs: [["Type", "Dual-fluid"], ["Inputs", "Liquid + air"], ["Atomization", "Air-assisted"], ["Output", "Controlled spray"]] }

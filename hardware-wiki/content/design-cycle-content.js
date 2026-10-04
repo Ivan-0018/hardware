@@ -1,10 +1,11 @@
 /* ============================================================
-   ENGINEERING DESIGN CYCLE — editable information
+   ENGINEERING DESIGN CYCLE — editable information  (version 2, index2.html)
+   From the hardware write-up for the wiki team.
    shape  : "infinity" or "circle" (the diagram in the explorer)
-   stages : the steps of the cycle (any number works; the circle
-            re-spaces itself). Rename freely, but keep each "key"
-            matching the keys used in the "cycle" blocks below
-            and in tank-content.js.
+   stages : the steps of the cycle (rename freely, but keep each "key"
+            matching the keys used in the "cycle" blocks below and in
+            tank-content.js)
+   hints  : the small footnote under the viewer ("" hides it)
    Text starting with "To add" is shown greyed out.
    ============================================================ */
 window.DESIGN_CYCLE = {
@@ -21,57 +22,75 @@ window.DESIGN_CYCLE = {
     { key: "learn",  name: "Learn" }
   ],
 
+  hints: {
+    drawing: "Inlets in teal · outlets in orange",   // tank drawings
+    flow: "",                                        // sprayer / nozzle part diagrams
+    model: "Drag to rotate · scroll to zoom"         // 3D view
+  },
+
   // the component box in the design explorer, in order
   // ("tank" reads from tank-content.js, the others from below)
+  // blurb: "" hides the line under the name; write one to show it again
   explorer: [
-    { key: "sprayer", name: "Sprayer system", blurb: "The whole liquid + air path" },
-    { key: "tank",    name: "Tank",           blurb: "Six iterations to one stackable tank" },
-    { key: "nozzle",  name: "Nozzle",         blurb: "Atomizing without harming the cells" }
+    { key: "sprayer", name: "Sprayer system", blurb: "" },
+    { key: "tank",    name: "Tank",           blurb: "" },
+    { key: "nozzle",  name: "Nozzle",         blurb: "" }
   ],
 
   /* ---------- whole sprayer system ----------
      The "Evolution" view draws each iteration from its "liquid" list,
      using the parts below. Parts that are new compared with the
-     previous iteration are highlighted automatically. (An optional
-     "air" list would add a second row; it is left out on purpose.)   */
+     previous iteration are highlighted automatically.               */
   sprayer: {
-    model: "",   // e.g. "models/sprayer.glb" once a 3D model exists
+    model: "models/sprayer-system.glb",   // converted from the SolidWorks part (Part5.SLDPRT)
+    orbit: "155deg 62deg auto",           // starting view of the 3D model (turn, tilt, distance)
     parts: {
-      tanks:       { label: "Tanks",  img: ["assets/img/gel-tank.png", "assets/img/diluent-tank.png"] },
-      pumps:       { label: "Peristaltic pumps",    img: ["assets/img/peristaltic-pump.png", "assets/img/peristaltic-pump.png"] },
-      y:           { label: "Y-connector",          img: "assets/img/y-connector.png" },
-      staticMixer: { label: "Static mixer",         img: "assets/img/static-mixer.png" },
-      diaphragm:   { label: "Diaphragm pump",       img: "assets/img/diaphragm-pump.svg" },
-      sensor:      { label: "Pressure sensor",      img: "assets/img/pressure-sensor.png" },
-      nozzle:      { label: "Nozzle",  img: "assets/img/nozzle.png" },
-      compressor:  { label: "Compressor",           img: "assets/img/air-compressor.png" },
-      regulator:   { label: "Pressure regulator",   img: "assets/img/pressure-regulator.png" }
+      tanks:       { label: "Tanks",             img: ["assets/img/gel-tank.png", "assets/img/diluent-tank.png"] },
+      pumps:       { label: "Peristaltic pumps", img: ["assets/img/peristaltic-pump.png", "assets/img/peristaltic-pump.png"] },
+      y:           { label: "Y-connector",       img: "assets/img/y-connector.png" },
+      staticMixer: { label: "Static mixer",      img: "assets/img/static-mixer.png" },
+      diaphragm:   { label: "Diaphragm pump",    img: "assets/img/diaphragm-pump.svg" },
+      sensor:      { label: "Pressure sensor",   img: "assets/img/pressure-sensor.png" },
+      nozzle:      { label: "Nozzle",            img: "assets/img/nozzle.png" }
     },
     iterations: [
       {
-        short: "Static mixer",
+        short: "Initial design",
         label: "Iteration 1",
-        title: "Passive mixing with a static mixer",
-        summary: "Treatment and diluent are metered by two peristaltic pumps, meet at a Y-connector and are blended by a static mixer before the pressure sensor and the air-assisted nozzle.",
+        title: "Initial design",
+        summary: "Treatment and diluent are metered by two peristaltic pumps, meet at a Y-connector and are blended by a static mixer before the pressure sensor and the nozzle.",
         liquid: ["tanks", "pumps", "y", "staticMixer", "sensor", "nozzle"],
         cycle: {
-          design: "Two independently metered lines meet at a Y-connector, and a static mixer blends them with no moving parts.",
-          build: "Two tanks, two P240 peristaltic pumps, Y-connector, static mixer, pressure sensor and air-assisted nozzle; compressor and regulator on the air side.",
-          test: "To add: what you saw with the static mixer (mixing quality, pressure drop, clogging).",
-          learn: "To add: why the static mixer was replaced by a diaphragm pump."
+          design: "Two independently metered lines meet at a Y-connector, and a static mixer blends them.",
+          build: "We put together the components and ran into issues. To add: the challenges from building.",
+          test: "We tested removing certain components to see whether they were actually necessary, and realised that by removing the static mixer we could lower the cost of the spray system without substantial performance loss.",
+          learn: "For slow mixing, the Y-connector and initial pumps were enough."
         }
       },
       {
         short: "Diaphragm pump",
-        label: "Iteration 2 · current",
-        title: "A diaphragm pump replaces the static mixer",
-        summary: "The static mixer was removed and a diaphragm pump now sits after the Y-connector. The rest of the liquid path and the air path stayed the same.",
+        label: "Iteration 2",
+        title: "Static mixer replaced with a diaphragm pump",
+        summary: "We rebuilt the sprayer system with a diaphragm pump in place of the static mixer, to help provide the pressure needed for spraying at the nozzle.",
         liquid: ["tanks", "pumps", "y", "diaphragm", "sensor", "nozzle"],
         cycle: {
-          design: "Blend the two streams in a diaphragm pump after the Y-connector instead of a static mixer.",
-          build: "Diaphragm pump fitted in the mixing position; tanks, peristaltic pumps, sensor, nozzle and air path unchanged.",
-          test: "To add: results with the diaphragm pump.",
-          learn: "To add: what the tests showed and what could change next."
+          design: "We reconstructed the sprayer system with a diaphragm pump in place of the static mixer, to help provide the pressure needed for spraying at the nozzle.",
+          build: "To add: challenges from building.",
+          test: "We tested it, and it mixed.",
+          learn: "The diaphragm pump was a suitable replacement for the static mixer."
+        }
+      },
+      {
+        short: "No diaphragm pump",
+        label: "Iteration 3 · current",
+        title: "Diaphragm pump removed",
+        summary: "Advances in the nozzle design meant the diaphragm pump was no longer needed, so the streams now mix at the Y-connector on their way to the nozzle.",
+        liquid: ["tanks", "pumps", "y", "sensor", "nozzle"],
+        cycle: {
+          design: "Due to advances in the nozzle design, we no longer needed the diaphragm pump.",
+          build: "We removed the diaphragm pump and reconstructed the sprayer system.",
+          test: "We tested whether mixing happened sufficiently by pumping two differently coloured liquids through and checking how they came out.",
+          learn: "Spraying did not require the diaphragm pump, and the system mixed well without it."
         }
       }
     ]
@@ -86,7 +105,7 @@ window.DESIGN_CYCLE = {
       pump:          { label: "Diaphragm pump",      img: "assets/img/diaphragm-pump.svg" },
       sensor:        { label: "Pressure sensor",     img: "assets/img/pressure-sensor.png" },
       genericNozzle: { label: "Generic nozzle",      img: "assets/img/generic-nozzle.svg" },
-      airNozzle:     { label: "Air-assisted nozzle", img: "assets/img/nozzle.png" },
+      airNozzle:     { label: "External-mix nozzle", img: "assets/img/nozzle.png" },
       compressor:    { label: "Compressor",          img: "assets/img/air-compressor.png" },
       regulator:     { label: "Pressure regulator",  img: "assets/img/pressure-regulator.png" }
     },
@@ -94,28 +113,28 @@ window.DESIGN_CYCLE = {
       {
         short: "Generic nozzle",
         label: "Iteration 1",
-        title: "A generic spray nozzle",
-        summary: "A standard single-fluid nozzle on the end of the liquid line, with the liquid pushed through it by pump pressure alone.",
+        title: "Generic nozzle",
+        summary: "A standard spray nozzle, attached to the diaphragm pump and pressure sensor.",
         liquid: ["pump", "sensor", "genericNozzle"],
         cycle: {
-          design: "A generic single-fluid nozzle at the end of the liquid line.",
-          build: "To add: which nozzle was used and how it was mounted.",
-          test: "To add: what the spray looked like with the viscous formulation.",
-          learn: "To add: why it was replaced by an air-assisted nozzle."
+          design: "We used a standard spray nozzle.",
+          build: "Constructed and attached to the diaphragm pump and pressure sensor.",
+          test: "To add: the viability test (e.g. growth curve) and its result.",
+          learn: "Too many cells died, so we needed an alternative spray method."
         }
       },
       {
         short: "Air-assisted",
         label: "Iteration 2 · current",
-        title: "Air-assisted dual-fluid nozzle",
-        summary: "Mixed liquid and compressed air enter through separate ports and meet at the nozzle to form the spray. A compressor and pressure regulator were added to supply the air.",
+        title: "Air-assisted external-mix nozzle",
+        summary: "Because too many cells died with the generic nozzle, we moved to an external-mix nozzle with air-assisted spraying.",
         liquid: ["pump", "sensor", "airNozzle"],
         air: ["compressor", "regulator"],
         cycle: {
-          design: "Separate liquid and air inlets; air provides the atomization energy.",
-          build: "Air-assisted nozzle fed by a 12 V compressor through a pressure regulator.",
-          test: "To add: spray pattern and viability after spraying.",
-          learn: "To add."
+          design: "An external-mix nozzle with air-assisted spraying.",
+          build: "We built it.",
+          test: "The same test as before: more cells survived, and spores are expected to survive.",
+          learn: "It works."
         }
       }
     ]

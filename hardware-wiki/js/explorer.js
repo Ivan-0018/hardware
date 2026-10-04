@@ -26,20 +26,24 @@
         model: window.TANK_MODEL || (T.current && T.current.model),
         frames: true,
         specs: T.current && T.current.specs,
-        iterations: T.iterations.map((it) => ({ label: it.label, short: it.title, title: it.title, summary: it.body, cycle: it.cycle }))
+        iterations: T.iterations.map((it) => ({ label: it.label, short: it.short || it.title, title: it.title, summary: it.body, cycle: it.cycle, note: it.note }))
       };
     }
     const S = D[key] || { iterations: [] };
-    // the sprayer's evolution view is drawn from its part lists
-    return Object.assign({ flow: !!S.parts }, S);
+    // the evolution view is drawn from the part lists; an inline copy of the 3D model
+    // (models/*-model.js) is preferred so the viewer also works from file://
+    const inline = window.MODEL_DATA && window.MODEL_DATA[key];
+    return Object.assign({ flow: !!S.parts }, S, inline ? { model: inline } : {});
   }
 
   /* ---------- component box ---------- */
   const list = D.explorer || [];
   $(".xp-select").innerHTML = list.map((c) => {
     const n = (studyFor(c.key).iterations || []).length;
+    // blurb: "" (empty string) hides the line under the component name altogether
+    const sub = c.blurb === "" ? "" : "<span>" + esc(c.blurb) + " · " + n + (n === 1 ? " cycle" : " cycles") + "</span>";
     return '<button type="button" class="xp-comp" data-key="' + c.key + '" role="tab"><span class="xp-icon" aria-hidden="true">' + (ICONS[c.key] || ICONS.tank) +
-      "</span><span class=\"xp-text\"><strong>" + esc(c.name) + "</strong><span>" + esc(c.blurb) + " · " + n + (n === 1 ? " cycle" : " cycles") + "</span></span></button>";
+      "</span><span class=\"xp-text\"><strong>" + esc(c.name) + "</strong>" + sub + "</span></button>";
   }).join("");
   const compBtns = [...root.querySelectorAll(".xp-comp")];
   compBtns.forEach((b) => b.addEventListener("click", () => select(b.dataset.key)));
@@ -59,6 +63,10 @@
   const modes = $(".xp-modes"), count = $(".xp-count"), hint = $(".xp-hint");
 
   let S = null, key = null, mode = "3d", iter = 0, edc = null;
+  // footnotes under the viewer: overridable with DESIGN_CYCLE.hints ("" hides one)
+  const hintText = (k, dflt) => (D.hints && k in D.hints ? D.hints[k] : dflt);
+  // an iteration can carry its own note (e.g. "Drawing to add")
+  const iterNote = () => { const it = S && S.iterations && S.iterations[iter]; return it && it.note ? it.note : ""; };
   function renderViewer() {
     [frameImg, mv, empty, flowEl].forEach((n) => n.remove());
     const hasModel = !!S.model;
@@ -70,16 +78,19 @@
       viewer.appendChild(frameImg);
       if (!framePlayer) framePlayer = TankEvolution.player(frameImg);
       framePlayer.goTo(iter, true);
-      hint.textContent = "Iteration drawing · inlet in teal, outlets in orange";
+      hint.textContent = iterNote() || hintText("drawing", "Iteration drawing · inlet in teal, outlets in orange");
     } else if (mode === "evo" && S.flow) {
       viewer.appendChild(flowEl);
       renderFlow(iter, true);
-      hint.textContent = "Highlighted parts are new in this iteration";
+      hint.textContent = hintText("flow", "Highlighted parts are new in this iteration");
     } else if (hasModel) {
-      if (mv.getAttribute("src") !== S.model) mv.setAttribute("src", S.model);
+      if (mv.getAttribute("src") !== S.model) {
+        mv.setAttribute("camera-orbit", S.orbit || "18deg 52deg auto");
+        mv.setAttribute("src", S.model);
+      }
       mv.setAttribute("alt", "3D model");
       viewer.appendChild(mv);
-      hint.textContent = "Drag to rotate · scroll to zoom";
+      hint.textContent = hintText("model", "Drag to rotate · scroll to zoom");
     } else {
       empty.innerHTML = "3D model to add<code>set \"model\" for " + esc(key) + " in content/design-cycle-content.js</code>";
       viewer.appendChild(empty);
@@ -154,7 +165,10 @@
     const titles = its.map((x) => x.short || x.title);
     // the cycle diagram and the tank morph start together and finish together
     const ms = edc.setCycle(k, its.length, it.short || it.title, it.cycle, first ? { instant: true, titles } : { titles });
-    if (mode === "evo" && S.frames && framePlayer) framePlayer.goTo(k, false, { dur: ms });
+    if (mode === "evo" && S.frames && framePlayer) {
+      framePlayer.goTo(k, false, { dur: ms });
+      hint.textContent = iterNote() || hintText("drawing", "Iteration drawing · inlet in teal, outlets in orange");
+    }
   }
 
   function select(k) {

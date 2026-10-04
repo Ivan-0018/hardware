@@ -1,53 +1,57 @@
 /* ============================================================
-   BIOCOMPATIBILITY — editable information
+   BIOCOMPATIBILITY — editable information  (version 2, index2.html)
    The five components sit on the corners of the pentagon, in
    flow order (clockwise from the top). Clicking one shows its
-   entry below the pentagon. "To add" marks text still to confirm.
+   entry on the right. "To add" marks text still to confirm.
+   The Material / Barrier rows are switched off in this version: each
+   component's "specs" list is empty. Put the pairs back in a "specs"
+   list (e.g. specs: [["Material", "PLA"], ["Barrier", "Resin coating"]])
+   to show the rows again.
    ============================================================ */
 window.BIOCOMPAT = {
 
-  center: { title: "Wetted path", hint: "Select a component" },
+  center: { title: "Fluid path", hint: "Select a component" },
 
   components: [
     {
       key: "tank",
-      name: "Tank",
+      name: "Tanks",
       role: "Storage",
       title: "Coated, drainable reservoirs",
-      text: "The tanks are printed in PLA and sealed with an internal resin coating that prevents microbial growth on the walls. The chevron V-base funnels the formulation to a single outlet, so little liquid is left behind, and each tank slides off its rail for cleaning.",
-      specs: [["Material", "PLA"], ["Coating", "Internal resin, prevents microbe growth"], ["Drainage", "V-base funnel to one outlet"], ["Servicing", "Slides off the rail"]]
+      text: "The tanks are 3D-printed in PLA and internally coated with five layers of resin that prevent microbial growth on the walls. The chevron V-shaped base funnels the contents to a single outlet, minimising leftover wastage and preventing leftover bacteria from pooling together. The tank internals also feature rounded corners, so bacteria have nowhere to grow.",
+      specs: []
     },
     {
       key: "tubing",
       name: "Tubing",
       role: "Transport",
-      title: "One continuous, replaceable tube",
-      text: "The formulation travels through a single run of tubing from the tank through the pump. It is the only surface the fluid touches between the tank and the mixer, and it can be swapped out between runs.",
-      specs: [["Material", "To add (e.g. silicone)"], ["Inner diameter", "To add"], ["Contact", "Only wetted surface to the mixer"], ["Servicing", "Replaceable"]]
+      title: "Easily replaceable tubes",
+      text: "The sprayer system uses silicone tubing to prevent microbial growth on the internals. The tubes are also very easily replaceable in case of any damage.",
+      specs: []
     },
     {
       key: "pump",
-      name: "Pump",
+      name: "Pumps",
       role: "Metering",
       title: "Gentle peristaltic pumping",
       text: "Peristaltic pumps move the fluid by squeezing the outside of the tube with rollers. The formulation never passes through pump machinery, and peristaltic pumping is generally regarded as low-shear, which suits living cells.",
-      specs: [["Type", "Peristaltic, P240"], ["Fluid contact", "Tubing only"], ["Shear", "Low (to confirm with viability test)"], ["Control", "PWM via MOSFET"]]
+      specs: []
     },
     {
       key: "mixer",
-      name: "Mixer",
+      name: "Y-connector",
       role: "Blending",
-      title: "Mixing in the diaphragm pump",
-      text: "The treatment and diluent streams meet at a Y-connector and are then blended inside a diaphragm pump, which replaced the earlier static mixer. Inside the pump the formulation touches the diaphragm and check valves, so their material and the shear they cause matter for the cells.",
-      specs: [["Type", "Diaphragm pump after the Y-connector"], ["Replaced", "Static mixer (sprayer iteration 1)"], ["Wetted parts", "Diaphragm + valves, material to add"], ["Viability", "To add"]]
+      title: "Mixing at the Y-connector",
+      text: "The treatment and diluent streams meet at a Y-connector on their way to the nozzle. Check valves prevent the backflow of mixed liquid, and so halt cross-contamination between the two tanks.",
+      specs: []
     },
     {
       key: "nozzle",
-      name: "Nozzle",
+      name: "External-mix nozzle",
       role: "Atomization",
       title: "Air does the atomizing",
-      text: "In the air-assisted nozzle, compressed air supplies the energy that breaks the liquid into droplets, instead of forcing the formulation through a tiny orifice at high pressure. The aim is to limit the mechanical stress on the cells at the very last step.",
-      specs: [["Type", "Air-assisted, dual-fluid"], ["Liquid pressure", "Monitored, 0–10 bar"], ["Material", "To add"], ["Validation", "See viability results"]]
+      text: "In the external-mix, air-assisted nozzle, compressed air supplies the energy that breaks the liquid into droplets, instead of forcing the formulation through a tiny orifice at high pressure. The aim is to limit the mechanical stress on the cells at the very last step.",
+      specs: []
     }
   ]
 };

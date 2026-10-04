@@ -18,11 +18,16 @@
   function renderSpecs(key) {
     const d = C.subsystems[key] || C.subsystems.all;
     if (!d) return;
-    document.getElementById("specTitle").textContent = d.title;
-    document.getElementById("specSummary").textContent = d.summary;
-    document.getElementById("specGrid").innerHTML = d.items
-      .map((x) => '<div class="spec"><span>' + x[0] + "</span><strong>" + x[1] + "</strong></div>")
-      .join("");
+    // the whole spec block is optional (fluid2.html leaves it out)
+    const title = document.getElementById("specTitle"), sum = document.getElementById("specSummary");
+    if (title) title.textContent = d.title;
+    if (sum) sum.textContent = d.summary;
+    const grid = document.getElementById("specGrid");
+    if (grid) {
+      grid.innerHTML = (d.items || [])
+        .map((x) => '<div class="spec"><span>' + x[0] + "</span><strong>" + x[1] + "</strong></div>")
+        .join("");
+    }
   }
 
   function applyFilter(f) {

@@ -1,12 +1,13 @@
 /* ============================================================
-   TANK DESIGN — editable information
-   Everything shown in the tank section lives here.
+   TANK DESIGN — editable information  (version 2, used by index2.html)
+   From the hardware write-up for the wiki team.
    - "hold" is the animation frame where that iteration sits:
      leave those numbers alone unless the frames are re-rendered.
-   - "cycle" is the engineering design cycle for that iteration.
-     Stage keys must match the stages in design-cycle-content.js
-     (design / build / test / learn). Text starting with
-     "To add" is shown greyed out as a placeholder.
+     Iteration 7 has no drawing yet, so it reuses the last frame
+     and shows its "note" under the viewer.
+   - "cycle" is the engineering design cycle for that iteration
+     (design / build / test / learn). Text starting with "To add"
+     is shown greyed out as a placeholder.
    ============================================================ */
 window.TANK_CONTENT = {
 
@@ -23,9 +24,9 @@ window.TANK_CONTENT = {
       body: "Our initial design was very simple, two bottles side by side. They were two rounded cuboids measuring 500ml each, based on a simple bottle model that was easily available.",
       cycle: {
         design: "Two 500 mL rounded-cuboid bottles placed side by side.",
-        build: "Modelled from a simple, readily available bottle shape so it was quick to try.",
-        test: "Checked against mounting on a drone: with two tanks side by side, differing fluid weights put the payload off-balance.",
-        learn: "The payload has to stay symmetric about the drone's centre line, so the tanks should be stacked."
+        build: "We took two ready-made PVC bottles.",
+        test: "We checked it against drone mounting and realised that the different fluid weights made the payload off-balance.",
+        learn: "We needed a design that remained symmetric around the centre line."
       }
     },
     {
@@ -34,22 +35,22 @@ window.TANK_CONTENT = {
       title: "Stacked tanks",
       body: "We wanted to be able to mount our sprayer system to a drone, and for that we needed symmetry. In order to achieve this, we switched to a custom tank design where we have the two tanks stacked on top of each other. This would prevent imbalance due to the differing weight of the two tanks.",
       cycle: {
-        design: "Custom tanks stacked on top of each other, centred on the drone.",
-        build: "Custom tank bodies replaced the off-the-shelf bottle shape.",
-        test: "Symmetry was solved, but when the tanks were emptied liquid still remained on the flat base.",
-        learn: "The base needs to guide the last of the liquid to the outlet."
+        design: "We made flat, square-based tanks that would simply be stacked on top of each other.",
+        build: "We replaced the ready-made bottles with these tanks.",
+        test: "The tanks were symmetric.",
+        learn: "Stacked tanks worked well, especially if we kept the heavier tank at the bottom of the stack."
       }
     },
     {
       label: "Iteration 3",
       hold: 148,
       title: "Sloped bases",
-      body: "With the stacked tanks, we had solved the symmetry problem but we ran into a different issue. When the tanks were empty, there still remained liquid on the bottom of the base. In order to solve this, we sloped the bases so that the liquid would pool at the lower corner, where the outlet was. We chose opposing equal slopes to preserve symmetry.",
+      body: "With the tanks stacked, the balance was now good. However, because of the wider base, more liquid was left behind when the tanks emptied. We sloped the bases so that the liquid would pool at the lower corner, where the outlet was.",
       cycle: {
-        design: "Sloped bases so liquid pools at the lower corner, where the outlet is.",
-        build: "Opposing, equal slopes on the two tanks to keep the pair symmetric.",
-        test: "Less wasted liquid, and symmetric when both tanks are full or empty, but not when one tank is only partly full.",
-        learn: "Each tank's centre of gravity must stay in the middle at every fill level."
+        design: "We had multiple challenges that meant we would either need to sacrifice stability or symmetry. We settled on a compromise and sloped the base by a very small tilt angle, affecting symmetry a small amount but preserving stability.",
+        build: "We made a new mounting plate shape for the tanks, and added outlets near the bottom.",
+        test: "We filled the tanks and let them drain. Wastage reduced significantly, and stability wasn't affected much.",
+        learn: "Sloping by a slight angle let us keep stability while keeping a reasonable amount of symmetry. Ideally, though, it would be perfectly symmetric."
       }
     },
     {
@@ -60,20 +61,20 @@ window.TANK_CONTENT = {
       cycle: {
         design: "A chevron cross-section, so each tank's centre of gravity stays central throughout.",
         build: "Added the inlet (teal) and the outlets (orange), including a top port for air to move while filling or emptying.",
-        test: "The two tanks still had no way of being locked together.",
-        learn: "The tanks need a mechanical interface between them."
+        test: "We filled the tanks with liquid and tested stability and waste; neither was lacking.",
+        learn: "We could reasonably use a chevron. The new challenge was how to mount it."
       }
     },
     {
       label: "Iteration 5",
       hold: 288,
       title: "Slide-rails",
-      body: "To lock the two tanks together we added a custom T-shaped protrusion on the top tank sliding into a T-shape slot on the rail block on the bottom tank. The inlet and outlet become vertical channels beside the slot in the rail block, and the top tank also gains air-out ports.",
+      body: "We wanted a way to lock the two tanks together, so we added a custom T-shaped protrusion on the top tank sliding into a T-shape slot on the rail block on the bottom tank. The inlet and outlet become vertical channels beside the slot in the rail block, and the top tank also gains air-out ports.",
       cycle: {
         design: "A T-shaped protrusion on the top tank slides into a T-slot on a rail block on the bottom tank.",
         build: "Inlet and outlet became vertical channels beside the slot; the top tank gained air-out ports.",
-        test: "Stepping back, the design was needlessly complex: two different tanks plus a rail block.",
-        learn: "One tank design that can stack on itself would be simpler."
+        test: "It worked well, but it was not scalable.",
+        learn: "We could make a condensed design that keeps all the advantages so far."
       }
     },
     {
@@ -84,8 +85,21 @@ window.TANK_CONTENT = {
       cycle: {
         design: "Rail slot moved to the top of the tank, with matching railing underneath.",
         build: "A single tank design that stacks on itself; the order or number of tanks can be swapped freely.",
-        test: "To add: print, leak and drain results, and how secure the stack is on the drone.",
-        learn: "To add: what the tests changed in the final design."
+        test: "It worked well, which raised a new question: how to coat the internals.",
+        learn: "It worked well, but there was no way to spray resin inside."
+      }
+    },
+    {
+      label: "Iteration 7",
+      hold: 388,               // no drawing yet: reuses the iteration 6 frame
+      note: "Drawing for this iteration to add",
+      title: "Adjusted rails",
+      body: "We needed a way to add resin to the internals, so we added a slideable top that lets resin be sprayed inside the tank.",
+      cycle: {
+        design: "We added a slideable top so resin could be sprayed inside.",
+        build: "Printed.",
+        test: "To add: how it was tested and what happened.",
+        learn: "To add."
       }
     }
   ],
@@ -101,7 +115,7 @@ window.TANK_CONTENT = {
       { label: "Body",       value: "Wide chevron cross-section, V-base funnel, rounded internal corners" },
       { label: "Ports",      value: "One outlet at the base · liquid inlet + air outlet on top (might be changed to a slideable top)" },
       { label: "Mounting",   value: "Square-T slots on top, angled T-tail feet below" },
-      { label: "Finish",     value: "Internal resin coating to prevent microbe growth" }
+      { label: "Finish",     value: "Internal coating of 5 layers of resin to prevent microbe growth" }
     ]
   }
 };
